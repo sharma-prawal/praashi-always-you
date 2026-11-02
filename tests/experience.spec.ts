@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import content from '../src/data/content.json' with { type: 'json' };
 import sharp from 'sharp';
 
-const viewports = [{ width: 320, height: 568 }, { width: 375, height: 667 }, { width: 390, height: 844 }, { width: 412, height: 915 }, { width: 430, height: 932 }, { width: 1440, height: 900 }];
+const viewports = [{ width: 320, height: 568 }, { width: 375, height: 667 }, { width: 390, height: 844 }, { width: 393, height: 852 }, { width: 412, height: 915 }, { width: 430, height: 932 }, { width: 1440, height: 900 }];
 async function noOverflow(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 }
@@ -22,7 +22,7 @@ for (const viewport of viewports) {
     page.on('request', request => { if (!request.url().startsWith('http://127.0.0.1:4173') && !request.url().startsWith('data:')) remoteRequests.push(request.url()); });
     await page.goto('/');
     await expect(page.getByRole('heading', { name: 'Nikki, I made you something.' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Enable ambient sound' })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: 'Turn music on' })).toHaveAttribute('aria-pressed', 'false');
     await artworkLoaded(page);
     await page.screenshot({ path: `test-results/cover-${viewport.width}-${test.info().project.name}.png`, fullPage: true });
     await noOverflow(page);
@@ -110,8 +110,8 @@ test('hold cancellation, completion, keyboard access, and silent repeat visits',
   await expect(page.getByRole('heading', { name: content.letter.title })).toBeVisible({ timeout: 4000 });
   await page.mouse.up();
   await page.reload();
-  await expect(page.getByRole('button', { name: 'Enable ambient sound' })).toHaveAttribute('aria-pressed', 'false');
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).focus();
+  await expect(page.getByRole('button', { name: 'Turn music on' })).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: content.letter.title })).toBeVisible();
 });
@@ -125,7 +125,7 @@ test('reduced motion and keyboard weather', async ({ page }) => {
   await slider.focus(); await page.keyboard.press('End');
   await expect(slider).toHaveValue('100');
   await expect(page.getByText(content.weather[2], { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
+  await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).click();
   await expect(page.getByRole('heading', { name: content.letter.title })).toBeVisible();
 });
 
@@ -147,7 +147,7 @@ test('photo loading, manifest, service worker and offline shell', async ({ page,
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('button', { name: 'Open our little world', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
+  await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).click();
   await expect(page.getByRole('heading', { name: content.letter.title })).toBeVisible();
   await context.setOffline(false);
 });
@@ -175,17 +175,17 @@ test('touch targets, gallery focus, and no photograph metadata', async ({ page }
 
 test('audio requires explicit consent and preference survives without autoplay', async ({ page }) => {
   await page.goto('/');
-  const enable = page.getByRole('button', { name: 'Enable ambient sound' });
+  const enable = page.getByRole('button', { name: 'Turn music on' });
   await expect(enable).toHaveAttribute('aria-pressed', 'false');
   await enable.click();
-  await expect(page.getByRole('button', { name: 'Mute ambient sound' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'Turn music off' })).toHaveAttribute('aria-pressed', 'true');
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('praashi-keepsake-v1') || '{}').soundPreference)).toBe(true);
   await page.reload();
-  await expect(page.getByRole('button', { name: 'Enable ambient sound' })).toHaveAttribute('aria-pressed', 'false');
-  await expect(page.getByRole('button', { name: 'Enable ambient sound' })).toHaveAttribute('title', /resume/);
+  await expect(page.getByRole('button', { name: 'Turn music on' })).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.getByRole('button', { name: 'Turn music on' })).toHaveAttribute('title', /resume/);
 });
 
-test('the promise remains accessible when browser storage is unavailable', async ({ page }) => {
+test('the story still opens when browser storage is unavailable', async ({ page }) => {
   await page.addInitScript(() => {
     Storage.prototype.getItem = () => { throw new DOMException('Storage unavailable', 'SecurityError'); };
     Storage.prototype.setItem = () => { throw new DOMException('Storage unavailable', 'SecurityError'); };
@@ -193,7 +193,7 @@ test('the promise remains accessible when browser storage is unavailable', async
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
-  await expect(page.getByRole('heading', { name: content.letter.title })).toBeVisible();
+  await page.getByRole('button', { name: 'Open our little world', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'All the little things.' })).toBeVisible();
   expect(errors).toEqual([]);
 });

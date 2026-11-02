@@ -1,3 +1,6 @@
+> **Superseded by RELEASE-CANDIDATE.md.** This file describes the earlier deployed build.
+
+
 # Final release candidate — 2 November 2026
 
 **Approved and deployed to Vercel on 2 November 2026.** Production: https://praashi-custom.vercel.app. The fresh production build matched all approved release checksums before publication. The tested build is in `dist/`; deployment details and live verification are recorded in DEPLOYMENT.md.

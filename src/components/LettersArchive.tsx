@@ -20,17 +20,17 @@ function Screenshot({ index }: { index: number }) {
     figure.current?.closest('dialog')?.scrollTo({ top: 0, behavior: 'instant' });
   };
   return <figure ref={figure} className="original-letter" data-complete={complete ? 'true' : undefined} aria-busy={!loaded && !failed}>
-    <button className="text-button original-toggle" aria-pressed={complete} onClick={toggle}>{complete ? <ArrowLeft size={15} /> : null}{complete ? 'Back to note content' : 'View complete screenshot'}{complete ? null : <ArrowRight size={15} />}</button>
-    {failed ? <div className="letter-image-error" role="status"><p>The original couldn't load. The saved excerpt is still here.</p><button className="text-button" onClick={retry}><RotateCcw size={15} />Try again</button></div> : <div className={complete ? 'complete-screenshot' : 'note-content-window'} style={complete ? undefined : {
+    <button className="text-button original-toggle" aria-pressed={complete} onClick={toggle}>{complete ? <ArrowLeft size={15} /> : null}{complete ? 'Back to the note' : 'See the whole page'}{complete ? null : <ArrowRight size={15} />}</button>
+    {failed ? <div className="letter-image-error" role="status"><p>This page couldn't open just now. My words are still here.</p><button className="text-button" onClick={retry}><RotateCcw size={15} />Try again</button></div> : <div className={complete ? 'complete-screenshot' : 'note-content-window'} style={complete ? undefined : {
       aspectRatio: `${crop.width} / ${crop.height}`,
       '--note-width': `${letter.width / crop.width * 100}%`, '--note-left': `${-crop.left / crop.width * 100}%`, '--note-top': `${-crop.top / crop.height * 100}%`,
     } as CSSProperties}>
       {!loaded && <p className="original-loading" role="status">Opening a little piece of 2021…</p>}
       <img key={`${complete}-${attempt}`} src={`${import.meta.env.BASE_URL}${complete ? letter.originalImage : letter.image}`} width={letter.width} height={letter.height} decoding="async" loading="eager" draggable={false}
-        alt={`${complete ? 'Complete unmodified screenshot' : 'Closer view of the visible note content'} dated ${letterDate(letter.date)}. A verified excerpt is available in the previous view.`}
+        alt={`${complete ? 'The whole original page' : 'A closer view of the original note'} from ${letterDate(letter.date)}.`}
         onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />
     </div>}
-    <figcaption>{complete ? 'The complete, unmodified screenshot.' : 'A closer view of the note, with phone controls tucked away.'}<br />Pinch to zoom. These are saved fragments.</figcaption>
+    <figcaption>{complete ? 'The whole page, just as it was kept.' : 'Just as I wrote it to you.'}<br />Pinch to read closer.</figcaption>
   </figure>;
 }
 
@@ -108,7 +108,7 @@ export default function LettersArchive({ initial, readMemory, remember, onClose 
     </header>
     <div className="archive-content">
       {view === 'collection' ? <>
-        <p className="archive-intro">Ten saved fragments.<br /><em>My words. Still yours.</em></p>
+        <p className="archive-intro">Ten little pieces of 2021.<br /><em>My words. Still yours.</em></p>
         <ol className="letter-timeline">{letters.map((item, i) => <li key={item.date}><button data-letter-index={i} onClick={() => select(i)} aria-label={`Read excerpt from ${letterDate(item.date)}`}>
           <time dateTime={item.date}>{letterDate(item.date)}</time><span className="timeline-excerpt">{item.excerpt}</span><span className="timeline-open">Unfold this memory <ArrowRight size={14} /></span>
         </button></li>)}</ol>
@@ -120,10 +120,10 @@ export default function LettersArchive({ initial, readMemory, remember, onClose 
             <span className="capsule-fold" aria-hidden="true" /><Heart className="archive-heart" size={19} strokeWidth={1} aria-hidden="true" />
             {letter.greeting && <p className="capsule-greeting">{letter.greeting}</p>}
             <blockquote>{letter.excerpt}</blockquote>
-            <p className="capsule-fragment">An excerpt from the visible message.</p>
+            <p className="capsule-fragment">A little piece of my heart, from 2021.</p>
           </article>
           <button className="text-button view-original" onClick={() => { excerptScroll.current = dialog.current?.scrollTop || 0; setView('original'); }}>View original <ArrowRight size={15} /></button>
-          <p className="archive-source-note">A fragment, never a reconstructed letter.</p>
+          <p className="archive-source-note">These were my words, long before today.</p>
           <div className="archive-pagination"><button className="icon-button" aria-label="Previous letter" onClick={() => move(-1)}><ArrowLeft size={18} /></button><span aria-live="polite">{index + 1} / {letters.length}</span><button className="icon-button" aria-label="Next letter" onClick={() => move(1)}><ArrowRight size={18} /></button></div>
         </>}
       </>}

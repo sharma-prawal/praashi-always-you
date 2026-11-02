@@ -54,7 +54,7 @@ for (const size of [{ width: 320, height: 460 }, { width: 375, height: 560 }, { 
     const exit = await page.getByRole('button', { name: 'Return to our story', exact: true }).boundingBox();
     expect(exit!.y + exit!.height).toBeLessThanOrEqual(size.height - 34);
     await page.getByRole('button', { name: 'Return to our story', exact: true }).click();
-    await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
+    await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).click();
     await expect(page.locator('.letter-paper')).toHaveCSS('opacity', '1');
     await page.getByRole('main').getByRole('button', { name: 'Every tomorrow', exact: true }).click();
     await expect(page.locator('.final-promise > span').last()).toHaveCSS('opacity', '1');
@@ -79,7 +79,7 @@ test('note-focused reading omits embedded chrome and complete originals remain b
     expect(image!.y).toBeLessThan(frame!.y - 100);
     expect(image!.y + image!.height).toBeGreaterThan(frame!.y + frame!.height);
     await window.screenshot({ path: `test-results/release-note-${letter.date}-${test.info().project.name}.png` });
-    await page.getByRole('button', { name: 'View complete screenshot', exact: true }).click();
+    await page.getByRole('button', { name: 'See the whole page', exact: true }).click();
     await expect(page.locator('.original-letter')).toHaveAttribute('data-complete', 'true');
     await expect(page.locator('.original-letter')).toHaveAttribute('aria-busy', 'false');
     expect(await page.locator('.complete-screenshot img').evaluate((image: HTMLImageElement) => new URL(image.src).pathname)).toBe(`/${letter.originalImage}`);
@@ -87,7 +87,7 @@ test('note-focused reading omits embedded chrome and complete originals remain b
     expect(response.ok()).toBe(true);
     expect(createHash('sha256').update(await response.body()).digest('hex')).toBe(letter.sourceSha256);
     expect((await readFile(`public/${letter.originalImage}`)).equals(await readFile(`letters/2021/${letter.date}.png`))).toBe(true);
-    await page.getByRole('button', { name: 'Back to note content', exact: true }).click();
+    await page.getByRole('button', { name: 'Back to the note', exact: true }).click();
     await expect(page.locator('.note-content-window')).toBeVisible();
     await page.getByRole('button', { name: 'Back to excerpt', exact: true }).click();
     await page.getByRole('button', { name: 'Back to all letters', exact: true }).click();
@@ -123,7 +123,7 @@ test('fresh QR-style arrivals always begin with the invitation and no returning-
     await expect(page.getByRole('heading', { name: 'Nikki, I made you something.' })).toBeVisible();
     await expect(page.getByRole('button', { name: /Welcome back/ })).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Open our little world', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Enable ambient sound' })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: 'Turn music on' })).toHaveAttribute('aria-pressed', 'false');
   }
 });
 

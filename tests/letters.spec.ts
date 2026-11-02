@@ -120,6 +120,8 @@ test('chapter revisits preserve opened envelopes and the optional collection ret
   await expect(page.locator('.capsule-paper blockquote')).toHaveText(letters[6].excerpt);
 });
 
+test.describe('legacy storage', () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
 test('legacy bookmarks migrate once and new seven-chapter bookmarks resume correctly', async ({ page }) => {
   await page.addInitScript(() => {
     if (!localStorage.getItem('praashi-keepsake-v1')) localStorage.setItem('praashi-keepsake-v1', JSON.stringify({ scene: 4, letterRead: true, soundPreference: false }));
@@ -131,6 +133,7 @@ test('legacy bookmarks migrate once and new seven-chapter bookmarks resume corre
   await page.reload();
   await page.getByRole('button', { name: /Welcome back/ }).click();
   await expect(page.getByRole('heading', { name: originalPromise.title })).toBeFocused();
+});
 });
 
 test('reduced motion keeps envelope, archive, exact bridge and promise immediately available offline', async ({ page, context }) => {
@@ -163,7 +166,7 @@ test.describe('letter screenshot failure', () => {
     await page.route('**/letters/2021/*.webp', route => route.abort());
     await enter(page); await collection(page); await page.locator('.letter-timeline button').first().click();
     await page.getByRole('dialog').getByRole('button', { name: 'View original', exact: true }).click();
-    await expect(page.getByText("The original couldn't load. The saved excerpt is still here.")).toBeVisible();
+    await expect(page.getByText("This page couldn't open just now. My words are still here.")).toBeVisible();
     await page.unroute('**/letters/2021/*.webp'); await page.getByRole('button', { name: 'Try again' }).click();
     await expect(page.locator('.original-letter')).toHaveAttribute('aria-busy', 'false');
     await page.getByRole('button', { name: 'Back to excerpt' }).click();

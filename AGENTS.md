@@ -7,12 +7,12 @@ Read and follow `@/Users/prawalsharma/.codex/RTK.md` when that local file is ava
 - Read PRODUCT.md and DESIGN.md before UI changes. Keep the six original scenes plus the inserted 2021 letter chapter, plum/blush/champagne/ivory palette, self-hosted typography and intimate mobile composition.
 - Never invent relationship memories, conversations, locations, dates or events. Caption feeling, not unsupported biography.
 - Never generate or retouch faces. Never modify originals in Photos/ or photos/. Change only optimized copies through the import tooling.
-- No accounts, backend, analytics, trackers, external font CDNs, streaming audio or runtime third-party requests. Do not publish personal photos without an explicit publishing request.
-- Sound stays off until an explicit sound-button gesture, including repeat visits. Hide/background pauses sound.
+- No accounts, backend, analytics, trackers, external font CDNs, third-party audio or runtime third-party requests. The owner has accepted public access to this deployment; do not add authentication. Do not deploy without explicit approval.
+- Music stays off until an explicit tap: the opening's Music on, the header sound button, or, once the owner's saved preference is on, the tap that opens or resumes the story. Hide/background pauses it. The soundtrack is self-hosted; its licence record is in assets/licenses/MUSIC.md and the on-page credit must remain.
 
 ## Implementation
 - React + TypeScript + Vite, Tailwind CSS and Motion. Static JSON and localStorage only. Keep library versions compatible and lockfile current.
-- Every chapter is directly accessible; the promise shortcut and tap alternative must always work. Preserve native dialog focus handling, Escape dismissal and focus restoration.
+- The first run is guided: the header gallery opens once all seven stars are touched; the promise shortcut, later chapters and next-chapter buttons stay disabled until reached or their items are seen. Reaching the final chapter once unlocks everything permanently. The heart's tap alternative must always work. Preserve native dialog focus handling, Escape dismissal and focus restoration.
 - Design 320–430px first. At least 44px touch targets, safe-area padding, dynamic viewport units, zoom enabled, no horizontal overflow. Letter uses natural document scrolling.
 - Animate transform and opacity where possible, use the shared easing tokens, gate hover by input capability, and honor reduced motion. Keep particles bounded.
 - Service worker caches the app shell and viewed photographs, never sends private assets anywhere. Generate it after the production build so hashed assets remain correct.

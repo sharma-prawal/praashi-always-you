@@ -10,6 +10,7 @@ await writeFile('.vercel/output/config.json', JSON.stringify({
   routes: [
     { src: '/(.*)', headers: { 'X-Robots-Tag': 'noindex, nofollow' }, continue: true },
     { src: '/sw\\.js', headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }, continue: true },
+    { src: '/assets/(.*)\\.(js|css|woff2)', headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }, continue: true },
     { handle: 'filesystem' },
   ],
 }, null, 2) + '\n');

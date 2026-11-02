@@ -12,4 +12,4 @@ export const bridgeLines = [
 export function letterDate(date: string) {
   return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`));
 }
-export interface CapsuleState { featured: number; opened: number[]; bridge: boolean }
+export interface CapsuleState { featured: number; opened: number[]; read: number[]; bridge: boolean }

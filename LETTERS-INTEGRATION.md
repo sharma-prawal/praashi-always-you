@@ -14,7 +14,7 @@ Implemented in the existing application on 2 November 2026. This adds one chapte
 
 Read the package README, manifest and all ten source screenshots. The supplied PNGs and manifest remain unchanged. Dates follow the manifest; the year 2021 was supplied by the author. These are explicitly presented as fragments, never full transcriptions. No missing paragraphs were reconstructed.
 
-App data is generated in `src/data/letters.json` by `npm run letters:import`. Excerpts come from the manifest, with one screenshot-verified punctuation correction: 15 July reads **“I love loving you, and nothing can change that.”** The manifest omitted the visible comma after “you”. Greetings were separately verified against the screenshots; no greeting is inferred for the August or October fragments, which begin mid-message. Visible nicknames and emoji in those greetings are preserved.
+App data is generated in `src/data/letters.json` by `npm run letters:import`. Excerpts come from the manifest, with one screenshot-verified punctuation correction: 15 July reads **“I love loving you, and nothing can change that.”** The manifest omitted the visible comma after “you”. Greetings were verified against all ten screenshots, including 28 August and 15 October, which an earlier import had wrongly omitted. Visible nicknames and emoji in those greetings are preserved.
 
 Local Sharp conversion produces full-resolution, lossless WebP copies, without cropping or retouching. All ten decoded copies match the source pixels exactly. Original PNG SHA-256 hashes are independently recorded in `tests/fixtures/original-letters.json` and checked in the browser suite.
 

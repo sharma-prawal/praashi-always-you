@@ -5,7 +5,7 @@ import Photo from './Photo';
 import { usePageZoom } from '../lib/usePageZoom';
 import type { Photo as PhotoData } from '../types';
 
-export default function PhotoGallery({ photos, initial, onClose }: { photos: PhotoData[]; initial: number | null; onClose: () => void }) {
+export default function PhotoGallery({ photos, initial, single = false, onClose }: { photos: PhotoData[]; initial: number | null; single?: boolean; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [selected, setSelected] = useState(initial);
   const [version, setVersion] = useState(0);
@@ -92,12 +92,12 @@ export default function PhotoGallery({ photos, initial, onClose }: { photos: Pho
     const bounds = dialog.current.getBoundingClientRect();
     if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) requestClose();
   }} onKeyDown={event => {
-    if (selected !== null && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+    if (!single && selected !== null && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
       event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1);
     }
   }}>
     <div className="gallery-header">
-      {selected !== null
+      {selected !== null && !single
         ? <button className="icon-button" aria-label="Back to all photos" onClick={() => setSelected(null)}><ArrowLeft size={20} /></button>
         : <span className="gallery-header-spacer" aria-hidden="true" />}
       <h2 id="gallery-title">{selected === null ? 'Our little collection' : 'A moment of us'}</h2>
@@ -111,7 +111,7 @@ export default function PhotoGallery({ photos, initial, onClose }: { photos: Pho
       <p className="gallery-end">Twenty little reasons to smile. One very big love.</p>
     </> : <div className="lightbox" role="region" aria-roledescription="carousel" aria-label="Our photographs" data-zoomed={zoomed ? 'true' : undefined}>
       <div className="photo-viewport">
-        <motion.div className="viewer-photo" drag={zoomed ? false : 'x'} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.15}
+        <motion.div className="viewer-photo" drag={zoomed || single ? false : 'x'} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.15}
           onDragEnd={(_, info) => {
             if (zoomed || (window.visualViewport?.scale || 1) > 1.02) return;
             if (Math.abs(info.offset.x) > 42 || Math.abs(info.velocity.x) > 350) move((info.offset.x || info.velocity.x) < 0 ? 1 : -1);
@@ -124,12 +124,12 @@ export default function PhotoGallery({ photos, initial, onClose }: { photos: Pho
         </motion.div>
       </div>
       <p className="viewer-caption">{photos[selected].caption}</p>
-      <div className="lightbox-controls">
+      {!single && <><div className="lightbox-controls">
         <button className="icon-button" aria-label="Previous photo" onClick={() => move(-1)}><ArrowLeft size={20} /></button>
         <span aria-live="polite">{selected + 1} / {photos.length}</span>
         <button className="icon-button" aria-label="Next photo" onClick={() => move(1)}><ArrowRight size={20} /></button>
       </div>
-      <p className="viewer-hint">Swipe to see another little moment.</p>
+      <p className="viewer-hint">Swipe to see another little moment.</p></>}
     </div>}
   </dialog>;
 }

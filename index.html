@@ -15,9 +15,18 @@
     <link rel="preload" as="font" type="font/woff2" href="./node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="./node_modules/@fontsource/dm-sans/files/dm-sans-latin-400-normal.woff2" crossorigin />
     <title>#PrAashi — Always You</title>
+    <style>html { background: #1c1124; }</style>
   </head>
   <body>
     <div id="root"></div>
+    <noscript><p style="color:#fff8ef;font:18px Georgia,serif;text-align:center;padding:40vh 28px 0">This little world needs JavaScript to open.</p></noscript>
+    <script>
+      // If the app can't arrive on a poor signal, say so kindly instead of showing an empty page.
+      setTimeout(function () {
+        if (document.getElementById('root').childElementCount) return;
+        document.getElementById('root').innerHTML = '<p style="color:#fff8ef;font:20px/1.5 Georgia,serif;text-align:center;padding:38vh 28px 0">Still finding the way here…<br><a style="color:#e9c47a" href="">Tap to try again</a></p>';
+      }, 12000);
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

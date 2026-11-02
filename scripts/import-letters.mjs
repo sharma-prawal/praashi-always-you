@@ -10,7 +10,9 @@ const greetings = {
   '2021-05-20': 'To my love Nikku❤️,',
   '2021-06-19': 'To my love Nikku❤️,',
   '2021-07-15': 'To my love Nikku❤️,',
+  '2021-08-28': 'To my love Nikku❤️,',
   '2021-09-17': 'To my love Nikku❤️,',
+  '2021-10-15': 'To my love Nikku❤️,',
   '2021-11-30': 'To my love Nikku❤️,',
   '2021-12-22': 'To my love Nikku❤️,',
 };
@@ -26,12 +28,12 @@ for (const letter of [...source.letters].sort((a, b) => a.date.localeCompare(b.d
   const originalImage = `letters/2021/originals/${letter.date}.png`;
   await copyFile(letter.image, `public/${originalImage}`);
   // Display-only window: keep the source pixels intact and omit embedded phone chrome.
-  // August/October screenshots begin mid-message and have no visible greeting.
-  const top = ['2021-08-28', '2021-10-15'].includes(letter.date) ? 670 : 520;
+  const top = 520;
   const { data: pixels, info } = await sharp(input).toColourspace('srgb').removeAlpha().raw().toBuffer({ resolveWithObject: true });
   // End in a real inter-line gap above the floating Notes toolbar, never through a glyph.
+  // 7 March's sign-off sits just above the toolbar, so its window keeps that last line.
   let bottom = 2300, blank = 0;
-  for (let y = 2299; y >= 2100; y--) {
+  for (let y = 2299; y >= 2100 && letter.date !== '2021-03-07'; y--) {
     let ink = false;
     for (let x = 60; x < 1110 && !ink; x++) {
       const offset = (y * info.width + x) * info.channels;

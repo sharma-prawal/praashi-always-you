@@ -8,7 +8,7 @@ async function chapter(page: Page, name: string) {
 test('leaving a long letter resets scroll and focuses the incoming scene', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
+  await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).click();
   await expect(page.locator('.letter-paper')).toBeVisible();
   await page.getByRole('main').getByRole('button', { name: 'Every tomorrow', exact: true }).click();
   const heading = page.getByRole('heading', { name: "I'll choose you. Always." });
@@ -29,7 +29,8 @@ test('resume remembers the last visited chapter and replay clears that bookmark'
   await chapter(page, 'Little things');
   await expect(page.getByRole('heading', { name: 'All the little things.' })).toBeVisible();
   await page.getByRole('button', { name: 'Return to our little world' }).click();
-  await expect(page.getByRole('button', { name: /Welcome back/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Continue our story/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Welcome back/ })).toHaveCount(0);
   await page.reload();
   await page.getByRole('button', { name: /Welcome back/ }).click();
   await expect(page.getByRole('heading', { name: 'All the little things.' })).toBeVisible();
@@ -56,7 +57,7 @@ test('a visible-window blur cancels a hold without revealing the letter', async 
 test('the exact original letter is readable and its controls stay reachable', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
+  await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).click();
   await expect(page.getByRole('heading', { name: originalLetter.title })).toBeFocused();
   await expect(page.locator('.letter-paper')).toHaveCSS('opacity', '1');
   expect((await page.locator('.letter-paper > p').allTextContents()).slice(0, -1)).toEqual(originalLetter.paragraphs);
@@ -74,7 +75,7 @@ test('the exact original letter is readable and its controls stay reachable', as
 test('gallery preserves the grid position, original reading position and focus', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Read my promise', exact: true }).click();
+  await page.getByRole('button', { name: 'Go straight to my promise', exact: true }).click();
   await expect(page.locator('.letter-paper')).toBeVisible();
   await page.evaluate(() => window.scrollTo(0, 700));
   const scrollBefore = await page.evaluate(() => scrollY);
