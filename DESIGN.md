@@ -34,3 +34,7 @@ Visible-viewport dimensions supplement dynamic CSS units for Safari toolbar chan
 ## 2021 envelope and soundtrack
 
 The envelope is layered paper, not an image: lining, folded note, pocket, then a translucent flap with its seal. Opening order is seal press, flap back, note rises, reading page grows out of the note, envelope settles away, about 1.1 s in all, transform and opacity only. Reduced motion opens immediately. Music is one self-hosted file through one player; chapter changes only adjust its level, quieter for the letters and promise, fuller at the ending.
+
+## Emotional light
+
+Each chapter's mood comes from one static, low-alpha radial gradient behind its own content, using only champagne, blush and the existing cool slider tone: a glow from the opening envelope, blush behind the photographs, sun or cool air following the weather slider, warmth around the 2021 paper, a deeper, quieter promise, and the warmest light at the ending. The constellation stays a dark night sky on purpose. Gradients sit at z-index -1 with no pointer events, and modals are untouched.

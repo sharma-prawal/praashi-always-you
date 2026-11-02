@@ -611,3 +611,16 @@ html:not([data-keyboard]) :focus { outline: none !important; }
 .header-actions .icon-button:disabled, .chapter-nav nav button:disabled { opacity: 0.32; }
 .gate-hint { font-size: 13px; line-height: 1.5; color: #f0d39d; margin: 0 0 12px; }
 .memories .gate-hint { margin: 14px 0 -10px; }
+
+/* Emotional light across the story. Static gradients behind each scene's content, never over photographs or text. */
+.keepsake::before, .memory-stack::before, .hold-heart::before, .finale-constellation::before, .weather-scene::before, .weather-scene::after { content: ''; position: absolute; z-index: -1; pointer-events: none; }
+.keepsake::before { inset: 22% -14% -16%; background: radial-gradient(ellipse at 50% 58%, #e9c47a1f, #e9c47a0a 42%, transparent 70%); }
+.memory-stack::before { inset: -12% -30%; background: radial-gradient(ellipse at 50% 50%, #f7cad722, #f7cad70c 48%, transparent 72%); }
+.weather-scene::before, .weather-scene::after { left: 0; right: 0; top: 0; height: 420px; }
+.weather-scene::before { background: radial-gradient(ellipse at 50% 58%, #e9c47a24, #e9c47a0c 46%, transparent 72%); opacity: calc(1 - var(--weather)); }
+.weather-scene::after { background: radial-gradient(ellipse at 50% 58%, #8894b51f, #8894b50a 46%, transparent 72%); opacity: var(--weather); }
+.capsule-light { background: radial-gradient(ellipse, #e9c47a1c, #f7cad70c 45%, transparent 70%); }
+.capsule-paper { box-shadow: 0 13px 25px #09030d30, 0 0 46px #e9c47a12; }
+.experience-shell[data-scene='5']::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(transparent 80px, #120a1a59 260px); }
+.hold-heart::before { inset: -8% -14%; background: radial-gradient(circle at 50% 48%, #f7cad714, transparent 66%); }
+.finale-constellation::before { inset: -20% -22% -24%; background: radial-gradient(ellipse at 50% 50%, #f7cad72b, #e9c47a14 42%, transparent 72%); }

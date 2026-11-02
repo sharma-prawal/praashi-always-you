@@ -267,6 +267,17 @@ test('gold focus rings appear only for the Tab key, never after touch, mouse or 
   expect(await ring()).toBe('none');
 });
 
+test('chapter light stays behind content and never takes a touch', async ({ page }) => {
+  await page.goto('/');
+  for (const [name, selector, pseudo] of [['A little world', '.keepsake', '::before'], ['Little things', '.memory-stack', '::before'], ['Through it all', '.weather-scene', '::before'], ['Through it all', '.weather-scene', '::after'], ['My promise', '.hold-heart', '::before'], ['Every tomorrow', '.finale-constellation', '::before']] as const) {
+    await chapterButton(page, name).click();
+    await expect(page.locator(selector)).toBeVisible();
+    const style = await page.locator(selector).evaluate((element, which) => { const s = getComputedStyle(element, which); return { events: s.pointerEvents, z: s.zIndex }; }, pseudo);
+    expect(style).toEqual({ events: 'none', z: '-1' });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
+
 test('readable text stays at or above 11px through the story', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto('/');
   const small = () => page.evaluate(() => {

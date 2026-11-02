@@ -13,13 +13,14 @@
 - **Type:** readable text raised to at least 11 px; decorative marks remain smaller.
 - **Layout:** compact phone layout is chosen from the smallest viewport, so Safari's toolbar cannot flip it mid-scroll.
 - **Failure:** a kind retry message appears if the app cannot download.
+- **Emotional light:** static scene-scoped gradients carry the mood from intimate to warm, leaving text, layout, photographs and modals unchanged. Comparison evidence is in `.cache/visual-qa/`.
 - **Guided first run:** the header gallery and "Browse our photos" open once all seven stars are touched; the promise shortcut and unreached chapter dots stay disabled until the final chapter is reached. Next buttons wait for all 8 memories, 7 stars, 3 thoughts and 3 featured letters. Until the seventh star, stars open only their own photo. One complete run unlocks everything permanently, including after "Experience again".
 
 The final promise, final letter, photographs, excerpts, dates and images are unchanged. Compare with the `baseline-audit` git tag.
 
 ## Verification
 
-Lint, typecheck and build pass. `npm test`: **177 passed, 3 skipped, 0 failed** (Chromium 90 passed; WebKit 87 passed, 3 skipped). The skips are the same Chromium-only touch-injection tests as before.
+Lint, typecheck and build pass. `npm test`: **179 passed, 3 skipped, 0 failed** (Chromium 91 passed; WebKit 88 passed, 3 skipped). The skips are the same Chromium-only touch-injection tests as before.
 
 No physical iPhone has been used. No person has listened to the soundtrack during implementation; only its levels, loop edges and output signal were measured.
 
