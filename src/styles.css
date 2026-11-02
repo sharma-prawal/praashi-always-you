@@ -624,3 +624,9 @@ html:not([data-keyboard]) :focus { outline: none !important; }
 .experience-shell[data-scene='5']::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(transparent 80px, #120a1a59 260px); }
 .hold-heart::before { inset: -8% -14%; background: radial-gradient(circle at 50% 48%, #f7cad714, transparent 66%); }
 .finale-constellation::before { inset: -20% -22% -24%; background: radial-gradient(ellipse at 50% 50%, #f7cad72b, #e9c47a14 42%, transparent 72%); }
+/* Cards underneath frame a photo exactly as the top card will, so it lands without a shift. */
+.memory-back { padding: 9px 9px 0; }
+.memory-back :is(picture, .photo-unavailable) { height: 258px; }
+.memory-back img { object-fit: contain; background: #f1e4d3; }
+@media (min-width: 700px) { .memory-back :is(picture, .photo-unavailable) { height: 285px; } }
+@media (max-width: 360px) { .memory-back :is(picture, .photo-unavailable) { height: 230px; } }

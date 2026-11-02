@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useEffectEvent, useRef, useState, type CSSProperties } from 'react';
-import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, MotionConfig, useReducedMotion, type Variants } from 'motion/react';
 import { ArrowRight, BookHeart, Check, ChevronLeft, ChevronRight, CloudRain, Heart, Images, Moon, Music2, RotateCcw, Sparkles, Sun, Volume2, VolumeX } from 'lucide-react';
 import photoData from './data/photos.json';
 import content from './data/content.json';
@@ -42,16 +42,46 @@ function Opening({ next, resume, saved, returning, letterRead, promise, music, s
     {returning && letterRead && <button className="text-button resume-button" onClick={promise}>Read my promise again <ArrowRight size={14} /></button>}
   </div>;
 }
+const wrapMemory = (index: number) => (index % 8 + 8) % 8;
 function Memories({ next, seen, mark, unlocked }: { next: () => void; seen: number; mark: (index: number) => void; unlocked: boolean }) {
-  const [selection, setSelection] = useState({ index: 0, version: 0 });
-  const index = selection.index;
+  const [selection, setSelection] = useState({ index: 0, version: 0, direction: 1 });
+  const [peek, setPeek] = useState(1);
+  const [settling, setSettling] = useState(false);
+  const peekReset = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { index, direction } = selection;
   const reduce = useReducedMotion();
   useEffect(() => { mark(index); }, [index, mark]);
-  const move = (step: number) => setSelection(current => ({ index: (current.index + step + 8) % 8, version: current.version + 1 }));
+  useEffect(() => () => { if (peekReset.current) clearTimeout(peekReset.current); }, []);
+  // The incoming photo waits underneath until it has fully landed on top.
+  useEffect(() => {
+    if (!settling) return;
+    const timer = setTimeout(() => { setSettling(false); setPeek(1); }, reduce ? 240 : 640);
+    return () => clearTimeout(timer);
+  }, [settling, selection.version, reduce]);
+  // The next likely photos are ready before a swipe reveals them.
+  useEffect(() => {
+    for (const step of [-2, -1, 1, 2]) {
+      const photo = photos[wrapMemory(index + step)];
+      for (const source of Math.abs(step) === 1 ? [photo.small, photo.src] : [photo.small]) { const image = new Image(); image.decoding = 'async'; image.src = `${import.meta.env.BASE_URL}${source}`; }
+    }
+  }, [index]);
+  const move = (step: number) => { setSettling(true); setPeek(step); setSelection(current => ({ index: wrapMemory(current.index + step), version: current.version + 1, direction: step })); };
+  const under = settling ? [index, index + direction] : [index + peek, index + peek * 2];
+  const card: Variants = {
+    enter: (step: number) => reduce ? { opacity: 0, x: 0, rotate: -2 } : { opacity: 0, x: step * 24, rotate: 3 },
+    center: { opacity: 1, x: 0, rotate: -2, transition: { type: 'spring', duration: 0.35, bounce: 0.1 } },
+    exit: (step: number) => reduce ? { opacity: 0, transition: { duration: 0.1 } } : { opacity: 0, x: step * -320, rotate: step * -8, transition: { duration: 0.24, ease: [0.23, 1, 0.32, 1], opacity: { delay: 0.12, duration: 0.1 } } },
+  };
   return <div className="memories scene-content"><h1>All the<br /><em>little things.</em></h1><p className="scene-description">It's you who makes them everything.</p>
     <div className="memory-stack" role="region" aria-roledescription="carousel" aria-label="Eight little moments" tabIndex={0} onKeyDown={e => { if (e.key === 'ArrowRight') move(1); if (e.key === 'ArrowLeft') move(-1); }}>
-      <div className="memory-back back-one" aria-hidden="true"><Photo photo={photos[(index + 1) % 8]} small /></div><div className="memory-back back-two" aria-hidden="true"><Photo photo={photos[(index + 2) % 8]} small /></div>
-      <AnimatePresence mode="wait" initial={false}><motion.figure key={selection.version} className="memory-frame" initial={{ opacity: 0, transform: reduce ? 'none' : 'translateX(24px) rotate(3deg)' }} animate={{ opacity: 1, transform: 'translateX(0px) rotate(-2deg)' }} exit={{ opacity: 0, transform: reduce ? 'none' : 'translateX(-75%) rotate(-8deg)', transition: { duration: reduce ? 0.1 : 0.24, ease: [0.23, 1, 0.32, 1], opacity: { delay: reduce ? 0 : 0.12, duration: 0.1 } } }} transition={{ type: 'spring', duration: 0.35, bounce: 0.1 }} drag="x" dragConstraints={{ left: 0, right: 0 }} dragElastic={0.16} onDragEnd={(_, info) => { if (Math.abs(info.offset.x) > 35 || Math.abs(info.velocity.x) > 250) move((info.offset.x || info.velocity.x) < 0 ? 1 : -1); }}>
+      <div className="memory-back back-two" aria-hidden="true"><Photo photo={photos[wrapMemory(under[1])]} small /></div><div className="memory-back back-one" aria-hidden="true"><Photo photo={photos[wrapMemory(under[0])]} small /></div>
+      <AnimatePresence mode="wait" initial={false} custom={direction}><motion.figure key={selection.version} className="memory-frame" custom={direction} variants={card} initial="enter" animate="center" exit="exit" drag="x" dragConstraints={{ left: 0, right: 0 }} dragElastic={0.9} dragDirectionLock
+        onDragStart={() => { if (peekReset.current) clearTimeout(peekReset.current); }}
+        onDrag={(_, info) => { if (info.offset.x) setPeek(info.offset.x < 0 ? 1 : -1); }}
+        onDragEnd={(_, info) => {
+          if (Math.abs(info.offset.x) > 35 || Math.abs(info.velocity.x) > 250) move((info.offset.x || info.velocity.x) < 0 ? 1 : -1);
+          else peekReset.current = setTimeout(() => setPeek(1), 320);
+        }}>
         <Photo photo={photos[index]} eager /><figcaption>{content.moments[index]}</figcaption>
       </motion.figure></AnimatePresence>
     </div>

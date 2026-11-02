@@ -304,6 +304,72 @@ test('chapter light stays behind content and never takes a touch', async ({ page
   }
 });
 
+test.describe('photo swipe', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  const name = (selector: string) => `(() => document.querySelector('${selector} img')?.getAttribute('src')?.match(/photo-(\\d+)/)?.[1])()`;
+  async function ready(page: Page) {
+    await page.goto('/'); await chapterButton(page, 'Little things').click();
+    await page.getByRole('button', { name: 'Next memory' }).click(); // Now on photo 02, with 01 and 03 either side.
+    await page.waitForTimeout(800);
+    const box = (await page.locator('.memory-frame').boundingBox())!;
+    return { x: box.x + box.width / 2, y: box.y + box.height / 2, left: box.x };
+  }
+  // Samples what is on screen from the release until the new card has landed.
+  const record = (page: Page) => page.evaluate(([top, under]) => new Promise<Array<{ top: string; under: string; x: number }>>(resolve => {
+    const frames: Array<{ top: string; under: string; x: number }> = [], begun = performance.now();
+    const sample = () => {
+      const card = document.querySelector('.memory-frame')!;
+      frames.push({ top: eval(top) as string, under: eval(under) as string, x: card.getBoundingClientRect().x });
+      if (performance.now() - begun < 500) requestAnimationFrame(sample); else resolve(frames);
+    };
+    sample();
+  }), [name('.memory-frame'), name('.back-one')]);
+
+  for (const [direction, sign, incoming] of [['left', -1, '03'], ['right', 1, '01']] as const) {
+    test(`swiping ${direction} follows the finger, keeps the incoming photo underneath and leaves that way`, async ({ page }) => {
+      const { x, y, left } = await ready(page);
+      await page.mouse.move(x, y); await page.mouse.down();
+      await page.mouse.move(x + sign * 120, y, { steps: 10 }); await page.waitForTimeout(80);
+      const dragged = (await page.locator('.memory-frame').boundingBox())!.x - left;
+      expect(dragged * sign).toBeGreaterThan(60);
+      expect(await page.evaluate(name('.back-one'))).toBe(incoming);
+      expect(await page.locator('.memory-stack > .memory-back').last().getAttribute('class')).toContain('back-one');
+      const frames = record(page);
+      await page.mouse.up();
+      const seen = await frames;
+      const leaving = seen.filter(frame => frame.top === '02');
+      expect(leaving.length).toBeGreaterThan(0);
+      for (const frame of leaving) expect(frame.under).toBe(incoming);
+      expect(Math.max(...leaving.map(frame => (frame.x - left) * sign))).toBeGreaterThan(100);
+      await expect(page.locator('.memory-frame')).toHaveCount(1);
+      await expect.poll(() => page.evaluate(name('.memory-frame'))).toBe(incoming);
+      await expect(page.locator('.memory-frame')).toHaveCSS('opacity', '1');
+    });
+  }
+
+  test('a short drag springs back without changing photo', async ({ page }) => {
+    const { x, y, left } = await ready(page);
+    await page.mouse.move(x, y); await page.mouse.down();
+    await page.mouse.move(x + 8, y, { steps: 2 }); await page.waitForTimeout(400); await page.mouse.up();
+    await page.waitForTimeout(700);
+    expect(await page.evaluate(name('.memory-frame'))).toBe('02');
+    expect(await page.evaluate(name('.back-one'))).toBe('03');
+    expect(Math.abs((await page.locator('.memory-frame').boundingBox())!.x - left)).toBeLessThan(2);
+  });
+
+  test('arrows use the same photo underneath and leave the matching way', async ({ page }) => {
+    const { left } = await ready(page);
+    const frames = record(page);
+    await page.getByRole('button', { name: 'Previous memory' }).click();
+    // Frames from before the tap are at rest, so only count the card once it has started leaving.
+    const leaving = (await frames).filter(frame => frame.top === '02' && frame.x - left > 2);
+    expect(leaving.length).toBeGreaterThan(0);
+    for (const frame of leaving) expect(frame.under).toBe('01');
+    expect(Math.max(...leaving.map(frame => frame.x - left))).toBeGreaterThan(30);
+    await expect.poll(() => page.evaluate(name('.memory-frame'))).toBe('01');
+  });
+});
+
 test('readable text stays at or above 11px through the story', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto('/');
   const small = () => page.evaluate(() => {
