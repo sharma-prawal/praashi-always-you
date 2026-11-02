@@ -87,7 +87,7 @@ test('every dated excerpt is authentic and every lossless screenshot preserves s
   expect(letters).toHaveLength(10);
   for (let i = 0; i < letters.length; i++) {
     const letter = letters[i], source = manifest.letters[i];
-    const png = await readFile(source.image);
+    const png = await readFile(`public/${letter.originalImage}`);
     expect(createHash('sha256').update(png).digest('hex')).toBe(letter.sourceSha256);
     expect(letter.sourceSha256).toBe(audit[source.image]);
     expect(letter.isFullLetter).toBe(false);

@@ -4,7 +4,7 @@
 
 ## What changed
 
-- **Music:** real licensed piano soundtrack, one shared player, off until chosen. Licence record: [assets/licenses/MUSIC.md](assets/licenses/MUSIC.md).
+- **Music:** real licensed piano soundtrack, one shared player, off until chosen. Licence record: [assets/licenses/MUSIC.md](../../assets/licenses/MUSIC.md).
 - **2021 envelope:** redrawn as layered paper with a real flap, seal and note. Opens in about 1.1 s; reduced motion opens at once.
 - **Greetings:** 28 August and 15 October restored from the screenshots, and their note views now include them. The 7 March view keeps "Yours 🤓".
 - **Service worker:** page navigations are network-first with a 4 s fallback to the saved page. New workers take over without waiting. Open pages get a quiet "update is ready" note, never while reading, and never reload by themselves.
@@ -13,7 +13,7 @@
 - **Type:** readable text raised to at least 11 px; decorative marks remain smaller.
 - **Layout:** compact phone layout is chosen from the smallest viewport, so Safari's toolbar cannot flip it mid-scroll.
 - **Failure:** a kind retry message appears if the app cannot download.
-- **Emotional light:** static scene-scoped gradients carry the mood from intimate to warm, leaving text, layout, photographs and modals unchanged. Comparison evidence is in `.cache/visual-qa/`.
+- **Emotional light:** static scene-scoped gradients carry the mood from intimate to warm, leaving text, layout, photographs and modals unchanged. Comparison evidence is in a local, untracked QA folder.
 - **Guided first run:** the header gallery and "Browse our photos" open once all seven stars are touched; the promise shortcut and unreached chapter dots stay disabled until the final chapter is reached. Next buttons wait for all 8 memories, 7 stars, 3 thoughts and 3 featured letters. Until the seventh star, stars open only their own photo. One complete run unlocks everything permanently, including after "Experience again".
 
 The final promise, final letter, photographs, excerpts, dates and images are unchanged. Compare with the `baseline-audit` git tag.
