@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react';
 import { ArrowRight, Images, Sparkles } from 'lucide-react';
 import type { Photo } from '../types';
+import { storyPhotos } from '../lib/storyPhotos';
 
 const positions = [[19, 20], [72, 12], [44, 39], [83, 48], [17, 65], [65, 75], [40, 88]];
 const labels = ['you & me', 'our kind of magic', 'always us', 'a little joy', 'closer', 'my favourite', 'home'];
@@ -17,8 +18,8 @@ export default function Constellation({ photos, next, seen, mark, unlocked, brow
       <svg className="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d={path} pathLength={1} /></svg>
       {positions.map(([x, y], i) => <button key={i} className={`memory-star ${seen.includes(i) ? 'seen' : ''}`} data-selected={selected === i ? 'true' : undefined}
         style={{ left: `${x}%`, top: `${y}%`, '--star-delay': `${i * -0.7}s` } as CSSProperties}
-        aria-haspopup="dialog" aria-label={`Reveal star ${i + 1}: ${photos[i + 8].caption}`}
-        onClick={event => { event.currentTarget.focus(); setSelected(i); mark(i); openPhoto(i + 8); }}>
+        aria-haspopup="dialog" aria-label={`Reveal star ${i + 1}: ${photos[storyPhotos.stars[i]].caption}`}
+        onClick={event => { event.currentTarget.focus(); setSelected(i); mark(i); openPhoto(storyPhotos.stars[i]); }}>
         <span className="star-glow" /><Sparkles size={i % 3 === 0 ? 25 : 19} strokeWidth={1} /><span className="star-label">{labels[i]}</span>
       </button>)}
     </div>

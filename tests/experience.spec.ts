@@ -80,14 +80,14 @@ for (const viewport of viewports) {
     await page.screenshot({ path: `test-results/finale-${viewport.width}-${test.info().project.name}.png`, fullPage: true });
     await page.getByRole('button', { name: 'Our photos', exact: true }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
-    await expect(page.locator('.gallery-grid button')).toHaveCount(20);
+    await expect(page.locator('.gallery-grid button')).toHaveCount(23);
     await expect(page.locator('.gallery-grid button').first().locator('img')).toHaveCSS('opacity', '1');
     await page.screenshot({ path: `test-results/collection-${viewport.width}-${test.info().project.name}.png` });
     await page.locator('.gallery-grid button').first().click();
     await expect(page.locator('.lightbox img')).toHaveCSS('opacity', '1');
     await page.screenshot({ path: `test-results/viewer-${viewport.width}-${test.info().project.name}.png` });
     await page.getByRole('button', { name: 'Next photo', exact: true }).click();
-    await expect(page.locator('.lightbox-controls > span')).toHaveText('2 / 20');
+    await expect(page.locator('.lightbox-controls > span')).toHaveText('2 / 23');
     await page.keyboard.press('Escape');
     await page.reload();
     await expect(page.getByRole('button', { name: /Welcome back/ })).toBeVisible();

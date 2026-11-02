@@ -108,7 +108,7 @@ export default function PhotoGallery({ photos, initial, single = false, onClose 
       <div className="gallery-grid">{columns.map((entries, column) => <div className="gallery-column" key={column}>{entries.map(({ photo, index }) => <button key={photo.id} data-photo-index={index} style={{ '--photo-ratio': `${photo.width} / ${photo.height}` } as CSSProperties} aria-label={`Open photo ${index + 1}: ${photo.caption}`} onClick={() => open(index)}>
         <Photo photo={photo} small eager={index < 4} /><span>{String(index + 1).padStart(2, '0')}</span>
       </button>)}</div>)}</div>
-      <p className="gallery-end">Twenty little reasons to smile. One very big love.</p>
+      <p className="gallery-end">Twenty-three little reasons to smile. One very big love.</p>
     </> : <div className="lightbox" role="region" aria-roledescription="carousel" aria-label="Our photographs" data-zoomed={zoomed ? 'true' : undefined}>
       <div className="photo-viewport">
         <motion.div className="viewer-photo" drag={zoomed || single ? false : 'x'} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.15}

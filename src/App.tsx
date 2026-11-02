@@ -18,6 +18,7 @@ import { Music } from './lib/music';
 import { readProgress, saveProgress } from './lib/storage';
 import { useVisibleViewport } from './lib/useVisibleViewport';
 import { useAppUpdate } from './lib/useAppUpdate';
+import { storyPhotos } from './lib/storyPhotos';
 
 const photos: PhotoData[] = photoData;
 const finalClauses = content.finalPromise.split(/ (?=through )/);
@@ -32,7 +33,7 @@ function Opening({ next, resume, saved, returning, letterRead, promise, music, s
       <div className="keepsake-orbit" /><div className="keepsake-orbit orbit-two" />
       <span className="keepsake-spark spark-one"><Sparkles size={20} strokeWidth={1} /></span><span className="keepsake-spark spark-two"><Sparkles size={24} strokeWidth={1} /></span>
       <div className="envelope-back" />
-      <div className="opening-photo"><Photo photo={photos[0]} eager small /><span>my favourite kind of forever</span></div>
+      <div className="opening-photo"><Photo photo={photos[storyPhotos.opening]} eager small /><span>my favourite kind of forever</span></div>
       <div className="envelope-front"><span className="envelope-address">To my Nikki,</span><span className="envelope-sign">with all my heart</span><span className="wax-seal"><Heart size={21} strokeWidth={1} /></span></div>
     </div>
     <p className="opening-subtitle">A little world made just for Nikki.<br />A love that feels like coming home.</p>
@@ -43,6 +44,7 @@ function Opening({ next, resume, saved, returning, letterRead, promise, music, s
   </div>;
 }
 const wrapMemory = (index: number) => (index % 8 + 8) % 8;
+const memoryPhoto = (index: number) => photos[storyPhotos.memories[wrapMemory(index)]];
 function Memories({ next, seen, mark, unlocked }: { next: () => void; seen: number; mark: (index: number) => void; unlocked: boolean }) {
   const [selection, setSelection] = useState({ index: 0, version: 0, direction: 1 });
   const [peek, setPeek] = useState(1);
@@ -61,7 +63,7 @@ function Memories({ next, seen, mark, unlocked }: { next: () => void; seen: numb
   // The next likely photos are ready before a swipe reveals them.
   useEffect(() => {
     for (const step of [-2, -1, 1, 2]) {
-      const photo = photos[wrapMemory(index + step)];
+      const photo = memoryPhoto(index + step);
       for (const source of Math.abs(step) === 1 ? [photo.small, photo.src] : [photo.small]) { const image = new Image(); image.decoding = 'async'; image.src = `${import.meta.env.BASE_URL}${source}`; }
     }
   }, [index]);
@@ -74,7 +76,7 @@ function Memories({ next, seen, mark, unlocked }: { next: () => void; seen: numb
   };
   return <div className="memories scene-content"><h1>All the<br /><em>little things.</em></h1><p className="scene-description">It's you who makes them everything.</p>
     <div className="memory-stack" role="region" aria-roledescription="carousel" aria-label="Eight little moments" tabIndex={0} onKeyDown={e => { if (e.key === 'ArrowRight') move(1); if (e.key === 'ArrowLeft') move(-1); }}>
-      <div className="memory-back back-two" aria-hidden="true"><Photo photo={photos[wrapMemory(under[1])]} small /></div><div className="memory-back back-one" aria-hidden="true"><Photo photo={photos[wrapMemory(under[0])]} small /></div>
+      <div className="memory-back back-two" aria-hidden="true"><Photo photo={memoryPhoto(under[1])} small /></div><div className="memory-back back-one" aria-hidden="true"><Photo photo={memoryPhoto(under[0])} small /></div>
       <AnimatePresence mode="wait" initial={false} custom={direction}><motion.figure key={selection.version} className="memory-frame" custom={direction} variants={card} initial="enter" animate="center" exit="exit" drag="x" dragConstraints={{ left: 0, right: 0 }} dragElastic={0.9} dragDirectionLock
         onDragStart={() => { if (peekReset.current) clearTimeout(peekReset.current); }}
         onDrag={(_, info) => { if (info.offset.x) setPeek(info.offset.x < 0 ? 1 : -1); }}
@@ -82,7 +84,7 @@ function Memories({ next, seen, mark, unlocked }: { next: () => void; seen: numb
           if (Math.abs(info.offset.x) > 35 || Math.abs(info.velocity.x) > 250) move((info.offset.x || info.velocity.x) < 0 ? 1 : -1);
           else peekReset.current = setTimeout(() => setPeek(1), 320);
         }}>
-        <Photo photo={photos[index]} eager /><figcaption>{content.moments[index]}</figcaption>
+        <Photo photo={memoryPhoto(index)} eager /><figcaption>{content.moments[index]}</figcaption>
       </motion.figure></AnimatePresence>
     </div>
     <div className="memory-controls"><button className="icon-button" aria-label="Previous memory" onClick={() => move(-1)}><ChevronLeft size={19} /></button><div className="memory-dots" role="group" aria-label={`Memory ${index + 1} of 8`}>{Array.from({ length: 8 }, (_, i) => <span key={i} className={i === index ? 'current' : ''} aria-hidden="true"><i /></span>)}</div><button className="icon-button" aria-label="Next memory" onClick={() => move(1)}><ChevronRight size={19} /></button></div>
@@ -93,7 +95,7 @@ function Weather({ next, seen, mark, unlocked }: { next: () => void; seen: numbe
   const [weather, setWeather] = useState(15);
   const [line, setLine] = useState(0);
   useEffect(() => { mark(line); }, [line, mark]);
-  return <div className="weather-scene scene-content" style={{ '--weather': weather / 100 } as CSSProperties}><h1>Through<br /><em>it all.</em></h1><div className="weather-window"><div className="weather-warm"><Artwork name="weather-sunlight" className="weather-art weather-sunlight-art" /></div><div className="weather-cool"><Moon className="moon" size={40} strokeWidth={0.8} /><Artwork name="weather-rain" className="weather-art weather-rain-art" /><div className="rain" aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <i key={i} style={{ left: `${(i * 17) % 100}%`, animationDelay: `${(i % 5) * -0.4}s` }} />)}</div></div><div className="weather-landscape" /><div className="weather-couple"><Photo photo={photos[16]} eager /></div><span className="weather-inscription">you are my constant</span></div>
+  return <div className="weather-scene scene-content" style={{ '--weather': weather / 100 } as CSSProperties}><h1>Through<br /><em>it all.</em></h1><div className="weather-window"><div className="weather-warm"><Artwork name="weather-sunlight" className="weather-art weather-sunlight-art" /></div><div className="weather-cool"><Moon className="moon" size={40} strokeWidth={0.8} /><Artwork name="weather-rain" className="weather-art weather-rain-art" /><div className="rain" aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <i key={i} style={{ left: `${(i * 17) % 100}%`, animationDelay: `${(i % 5) * -0.4}s` }} />)}</div></div><div className="weather-landscape" /><div className="weather-couple"><Photo photo={photos[storyPhotos.weather]} eager /></div><span className="weather-inscription">you are my constant</span></div>
     <div className="weather-slider"><Sun size={19} aria-hidden="true" /><label className="sr-only" htmlFor="weather">Move between sunshine and rain</label><input id="weather" type="range" min="0" max="100" value={weather} onChange={e => { const value = Number(e.target.value); setWeather(value); setLine(value < 34 ? 0 : value < 67 ? 1 : 2); }} /><CloudRain size={19} aria-hidden="true" /></div><p className="gesture-note">Slide between sunshine and rain.</p>
     <div className="weather-words" aria-live="polite"><AnimatePresence mode="wait" initial={false}><motion.p key={line} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>{content.weather[line]}</motion.p></AnimatePresence><button className="text-button weather-next" onClick={() => { const nextLine = (line + 1) % 3; setLine(nextLine); setWeather([15, 50, 90][nextLine]); }} aria-label="Read the next thought">{line + 1} <span>/ 3</span><ArrowRight size={14} /></button></div>
     <p className="weather-promise">On every kind of day,<br /><em>I'll choose you.</em></p>{!unlocked && <p className="gate-hint" role="status">Read all three thoughts to go on · {seen} of 3</p>}<Continue disabled={!unlocked} onClick={next}>Where it all began</Continue>
@@ -103,7 +105,7 @@ function Finale({ replay, promise, gallery }: { replay: () => void; promise: () 
   const [burst, setBurst] = useState(0);
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (timeout.current) clearTimeout(timeout.current); }, []);
-  return <div className="finale scene-content"><p className="finale-intro">In every tomorrow...</p><h1><span className="ending-choice">I'll choose you.</span><br /><em>Always.</em></h1><div className="finale-constellation"><div className="finale-orbit" aria-hidden="true" />{[0, 1, 5, 14, 16, 19].map((photo, i) => <div className={`finale-photo finale-photo-${i}`} key={i} style={{ '--gather-delay': `${i * 55}ms` } as CSSProperties}><Photo photo={photos[photo]} small /></div>)}<button className="final-heart" aria-label="Send a little love into our sky" onClick={() => { setBurst(b => b + 1); if (timeout.current) clearTimeout(timeout.current); timeout.current = setTimeout(() => setBurst(0), 1400); }}><Artwork name="glowing-heart" className="final-heart-art" /><Heart size={36} strokeWidth={0.7} fill="currentColor" /></button>{burst > 0 && <div className="love-burst" key={burst} aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <span key={i} style={{ '--x': `${Math.cos(i * Math.PI / 6) * (i % 2 ? 110 : 80)}px`, '--y': `${Math.sin(i * Math.PI / 6) * 110}px` } as CSSProperties}>{i % 4 === 0 ? <Heart size={10} fill="currentColor" /> : <i />}</span>)}</div>}</div><p className="forever-line">Forever <span>#PrAashi</span> <Heart size={14} /></p><p className="finale-description final-promise">{finalClauses.map((line, index) => <Fragment key={line}>{index > 0 ? ' ' : null}<span>{line}</span></Fragment>)}</p><button className="text-button finale-reread" onClick={promise}>Read my promise <ArrowRight size={14} /></button><div className="finale-actions"><button className="text-button" onClick={replay}><RotateCcw size={15} />Experience again</button><button className="text-button" onClick={e => { e.currentTarget.focus(); gallery(); }}><Images size={16} />Our photos</button></div><p className="finale-signature">Made with all my love, Pawi.</p><details className="music-credit"><summary>Music</summary><p><a href="https://freemusicarchive.org/music/maarten-schellekens/soft-piano-music/echoes-of-embrace/" target="_blank" rel="noreferrer">Echoes of Embrace</a> and <a href="https://freemusicarchive.org/music/maarten-schellekens/soft-piano-music/pristine-reverie/" target="_blank" rel="noreferrer">Pristine Reverie</a> by Maarten Schellekens, <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noreferrer">CC BY-NC 4.0</a>. Gently joined and faded for this gift.</p></details></div>;
+  return <div className="finale scene-content"><p className="finale-intro">In every tomorrow...</p><h1><span className="ending-choice">I'll choose you.</span><br /><em>Always.</em></h1><div className="finale-constellation"><div className="finale-orbit" aria-hidden="true" />{storyPhotos.finale.map((photo, i) => <div className={`finale-photo finale-photo-${i}`} key={i} style={{ '--gather-delay': `${i * 55}ms` } as CSSProperties}><Photo photo={photos[photo]} small /></div>)}<button className="final-heart" aria-label="Send a little love into our sky" onClick={() => { setBurst(b => b + 1); if (timeout.current) clearTimeout(timeout.current); timeout.current = setTimeout(() => setBurst(0), 1400); }}><Artwork name="glowing-heart" className="final-heart-art" /><Heart size={36} strokeWidth={0.7} fill="currentColor" /></button>{burst > 0 && <div className="love-burst" key={burst} aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <span key={i} style={{ '--x': `${Math.cos(i * Math.PI / 6) * (i % 2 ? 110 : 80)}px`, '--y': `${Math.sin(i * Math.PI / 6) * 110}px` } as CSSProperties}>{i % 4 === 0 ? <Heart size={10} fill="currentColor" /> : <i />}</span>)}</div>}</div><p className="forever-line">Forever <span>#PrAashi</span> <Heart size={14} /></p><p className="finale-description final-promise">{finalClauses.map((line, index) => <Fragment key={line}>{index > 0 ? ' ' : null}<span>{line}</span></Fragment>)}</p><button className="text-button finale-reread" onClick={promise}>Read my promise <ArrowRight size={14} /></button><div className="finale-actions"><button className="text-button" onClick={replay}><RotateCcw size={15} />Experience again</button><button className="text-button" onClick={e => { e.currentTarget.focus(); gallery(); }}><Images size={16} />Our photos</button></div><p className="finale-signature">Made with all my love, Pawi.</p><details className="music-credit"><summary>Music</summary><p><a href="https://freemusicarchive.org/music/maarten-schellekens/soft-piano-music/echoes-of-embrace/" target="_blank" rel="noreferrer">Echoes of Embrace</a> and <a href="https://freemusicarchive.org/music/maarten-schellekens/soft-piano-music/pristine-reverie/" target="_blank" rel="noreferrer">Pristine Reverie</a> by Maarten Schellekens, <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noreferrer">CC BY-NC 4.0</a>. Gently joined and faded for this gift.</p></details></div>;
 }
 
 // One soundtrack, quieter for reading and fuller at the ending.

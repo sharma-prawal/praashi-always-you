@@ -130,14 +130,14 @@ test('muting while audio startup is pending cannot leave sound running', async (
 test.describe('image network recovery', () => {
   test.use({ serviceWorkers: 'block' });
   test('failed photographs recover after reconnecting and do not poison a new frame', async ({ page }) => {
-    await page.route('**/photos/photo-02*', route => route.abort());
+    await page.route('**/photos/photo-03*', route => route.abort());
     await page.goto('/');
     await chapter(page, 'Little things');
     await expect(page.locator('.back-one .photo-unavailable')).toBeVisible();
     await page.getByRole('button', { name: 'Next memory', exact: true }).click();
     await expect.poll(() => page.locator('.back-one img').evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
     await expect(page.locator('.memory-frame .photo-unavailable')).toBeVisible();
-    await page.unroute('**/photos/photo-02*');
+    await page.unroute('**/photos/photo-03*');
     await page.evaluate(() => window.dispatchEvent(new Event('online')));
     await expect.poll(() => page.locator('.memory-frame img').evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
     await expect(page.locator('.memory-frame img')).toHaveCSS('object-fit', 'contain');

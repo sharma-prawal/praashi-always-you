@@ -91,10 +91,10 @@ for (const width of [320, 390, 430]) {
     await page.getByRole('button', { name: 'Close gallery', exact: true }).click();
     await expect(buttons.first()).toBeFocused();
     await buttons.first().click();
-    await expect(page.locator('.lightbox-controls > span')).toHaveText('9 / 20');
+    await expect(page.locator('.lightbox-controls > span')).toHaveText('9 / 23');
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Browse our photos' }).click();
-    await expect(page.locator('.gallery-grid button')).toHaveCount(20);
+    await expect(page.locator('.gallery-grid button')).toHaveCount(23);
   });
 }
 
@@ -139,7 +139,7 @@ test.describe('viewer touch gestures', () => {
   test('touch arrows and pointer swipes move in both directions with a bounded viewer', async ({ page }) => {
     await page.goto('/'); await openViewer(page);
     await page.getByRole('button', { name: 'Next photo' }).tap();
-    await expect(page.locator('.lightbox-controls > span')).toHaveText('2 / 20');
+    await expect(page.locator('.lightbox-controls > span')).toHaveText('2 / 23');
     await expect(page.locator('.viewer-photo img')).toHaveAttribute('src', /photo-02/);
     await expect(page.locator('.photo-reveal')).toHaveCSS('opacity', '1');
     const box = await page.locator('.photo-viewport').boundingBox();
@@ -147,7 +147,7 @@ test.describe('viewer touch gestures', () => {
     await page.mouse.down();
     await page.mouse.move(box!.x + box!.width * 0.8, box!.y + box!.height / 2, { steps: 8 });
     await page.mouse.up();
-    await expect(page.locator('.lightbox-controls > span')).toHaveText('1 / 20');
+    await expect(page.locator('.lightbox-controls > span')).toHaveText('1 / 23');
     await expect(page.locator('.viewer-photo')).toHaveCount(1);
     await expect(page.locator('.viewer-photo')).toHaveCSS('opacity', '1');
     await expect(page.locator('.viewer-photo')).toHaveCSS('touch-action', 'pan-y pinch-zoom');
@@ -163,7 +163,7 @@ test.describe('viewer touch gestures', () => {
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
     for (let step = 1; step <= 8; step++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - step * 17, y }] });
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-    await expect(page.locator('.lightbox-controls > span')).toHaveText('2 / 20');
+    await expect(page.locator('.lightbox-controls > span')).toHaveText('2 / 23');
     await expect(page.locator('.viewer-photo img')).toHaveAttribute('src', /photo-02/);
     await cdp.detach();
   });

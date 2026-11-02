@@ -258,5 +258,44 @@
     "src": "photos/photo-20-960.webp",
     "small": "photos/photo-20-480.webp",
     "fallback": "photos/photo-20.jpg"
+  },
+  {
+    "id": "photo-21",
+    "source": "Photos/IMG_1403.jpeg",
+    "caption": "Still my favourite view.",
+    "alt": "Pawi and Nikki together in a close portrait",
+    "position": "50% 30%",
+    "note": "Visually selected from contact sheets for expression, variety and intact faces; no biographical claims.",
+    "width": 4032,
+    "height": 3024,
+    "src": "photos/photo-21-960.webp",
+    "small": "photos/photo-21-480.webp",
+    "fallback": "photos/photo-21.jpg"
+  },
+  {
+    "id": "photo-22",
+    "source": "Photos/IMG_8921.jpeg",
+    "caption": "Home, in every photograph.",
+    "alt": "Pawi and Nikki together in a close portrait",
+    "position": "50% 30%",
+    "note": "Visually selected from contact sheets for expression, variety and intact faces; no biographical claims.",
+    "width": 4032,
+    "height": 3024,
+    "src": "photos/photo-22-960.webp",
+    "small": "photos/photo-22-480.webp",
+    "fallback": "photos/photo-22.jpg"
+  },
+  {
+    "id": "photo-23",
+    "source": "Photos/IMG_0923.jpeg",
+    "caption": "A little more, every day.",
+    "alt": "Pawi and Nikki together in a close portrait",
+    "position": "50% 30%",
+    "note": "Visually selected from contact sheets for expression, variety and intact faces; no biographical claims.",
+    "width": 4032,
+    "height": 3024,
+    "src": "photos/photo-23-960.webp",
+    "small": "photos/photo-23-480.webp",
+    "fallback": "photos/photo-23.jpg"
   }
 ]

@@ -16,6 +16,7 @@ Read and follow `@/Users/prawalsharma/.codex/RTK.md` when that local file is ava
 - Design 320–430px first. At least 44px touch targets, safe-area padding, dynamic viewport units, zoom enabled, no horizontal overflow. Letter uses natural document scrolling.
 - Animate transform and opacity where possible, use the shared easing tokens, gate hover by input capability, and honor reduced motion. Keep particles bounded.
 - Service worker caches the app shell and viewed photographs, never sends private assets anywhere. Generate it after the production build so hashed assets remain correct.
+- Each photograph appears in only one place in the story (src/lib/storyPhotos.ts); the gallery alone shows them all.
 - Photo curation source is scripts/curation.json; src/data/photos.json is generated and checked against the Photo interface. Original filenames are provenance, never assumed memories.
 
 ## Checks

@@ -4,6 +4,8 @@ import { cp, mkdtemp, readFile, rm, writeFile, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { extname, join } from 'node:path';
 import { letters } from '../src/lib/letters';
+import { storyPhotos } from '../src/lib/storyPhotos';
+import photos from '../src/data/photos.json' with { type: 'json' };
 
 const chapterButton = (page: Page, name: string) => page.getByRole('navigation').getByRole('button', { name, exact: true });
 const greetings: Record<string, string> = {
@@ -309,7 +311,7 @@ test.describe('photo swipe', () => {
   const name = (selector: string) => `(() => document.querySelector('${selector} img')?.getAttribute('src')?.match(/photo-(\\d+)/)?.[1])()`;
   async function ready(page: Page) {
     await page.goto('/'); await chapterButton(page, 'Little things').click();
-    await page.getByRole('button', { name: 'Next memory' }).click(); // Now on photo 02, with 01 and 03 either side.
+    await page.getByRole('button', { name: 'Next memory' }).click(); // Now on photo 03, with 02 and 04 either side.
     await page.waitForTimeout(800);
     const box = (await page.locator('.memory-frame').boundingBox())!;
     return { x: box.x + box.width / 2, y: box.y + box.height / 2, left: box.x };
@@ -325,7 +327,7 @@ test.describe('photo swipe', () => {
     sample();
   }), [name('.memory-frame'), name('.back-one')]);
 
-  for (const [direction, sign, incoming] of [['left', -1, '03'], ['right', 1, '01']] as const) {
+  for (const [direction, sign, incoming] of [['left', -1, '04'], ['right', 1, '02']] as const) {
     test(`swiping ${direction} follows the finger, keeps the incoming photo underneath and leaves that way`, async ({ page }) => {
       const { x, y, left } = await ready(page);
       await page.mouse.move(x, y); await page.mouse.down();
@@ -337,7 +339,7 @@ test.describe('photo swipe', () => {
       const frames = record(page);
       await page.mouse.up();
       const seen = await frames;
-      const leaving = seen.filter(frame => frame.top === '02');
+      const leaving = seen.filter(frame => frame.top === '03');
       expect(leaving.length).toBeGreaterThan(0);
       for (const frame of leaving) expect(frame.under).toBe(incoming);
       expect(Math.max(...leaving.map(frame => (frame.x - left) * sign))).toBeGreaterThan(100);
@@ -352,8 +354,8 @@ test.describe('photo swipe', () => {
     await page.mouse.move(x, y); await page.mouse.down();
     await page.mouse.move(x + 8, y, { steps: 2 }); await page.waitForTimeout(400); await page.mouse.up();
     await page.waitForTimeout(700);
-    expect(await page.evaluate(name('.memory-frame'))).toBe('02');
-    expect(await page.evaluate(name('.back-one'))).toBe('03');
+    expect(await page.evaluate(name('.memory-frame'))).toBe('03');
+    expect(await page.evaluate(name('.back-one'))).toBe('04');
     expect(Math.abs((await page.locator('.memory-frame').boundingBox())!.x - left)).toBeLessThan(2);
   });
 
@@ -362,12 +364,52 @@ test.describe('photo swipe', () => {
     const frames = record(page);
     await page.getByRole('button', { name: 'Previous memory' }).click();
     // Frames from before the tap are at rest, so only count the card once it has started leaving.
-    const leaving = (await frames).filter(frame => frame.top === '02' && frame.x - left > 2);
+    const leaving = (await frames).filter(frame => frame.top === '03' && frame.x - left > 2);
     expect(leaving.length).toBeGreaterThan(0);
-    for (const frame of leaving) expect(frame.under).toBe('01');
+    for (const frame of leaving) expect(frame.under).toBe('02');
     expect(Math.max(...leaving.map(frame => frame.x - left))).toBeGreaterThan(30);
-    await expect.poll(() => page.evaluate(name('.memory-frame'))).toBe('01');
+    await expect.poll(() => page.evaluate(name('.memory-frame'))).toBe('02');
   });
+});
+
+test('no photograph repeats between the opening, chapters and ending', async ({ page }) => {
+  const planned = [storyPhotos.opening, ...storyPhotos.memories, ...storyPhotos.stars, storyPhotos.weather, ...storyPhotos.finale];
+  expect(new Set(planned).size).toBe(planned.length);
+  expect([...planned].sort((a, b) => a - b)).toEqual(photos.map((_, index) => index));
+
+  // Confirm the rendered pages too, including every photo in the swipeable stack and behind each star.
+  const seen = new Map<string, string>();
+  const note = (place: string, id: string | undefined) => {
+    expect(id, `${place} has a photo`).toBeTruthy();
+    expect(seen.has(id!), `${id} in ${place} already used in ${seen.get(id!)}`).toBe(false);
+    seen.set(id!, place);
+  };
+  const ids = (selector: string) => page.locator(`${selector} img`).evaluateAll(images => images.map(image => image.getAttribute('src')?.match(/photo-\d+/)?.[0] ?? ''));
+  await page.goto('/');
+  for (const id of await ids('.opening-photo')) note('opening', id);
+  await chapterButton(page, 'Little things').click();
+  for (let i = 0; i < 8; i++) {
+    await expect(page.locator('.memory-dots > .current')).toHaveCount(1);
+    await expect(page.locator('.memory-frame')).toHaveCount(1);
+    note('little things', (await ids('.memory-frame'))[0]);
+    await page.getByRole('button', { name: 'Next memory' }).click();
+    await page.waitForTimeout(420);
+  }
+  await chapterButton(page, 'Our constellation').click();
+  await expect(page.locator('.memory-star')).toHaveCount(7);
+  for (let i = 0; i < 7; i++) {
+    await page.locator('.memory-star').nth(i).click();
+    await expect(page.locator('.lightbox img')).toHaveCount(1);
+    note('constellation', (await ids('.lightbox'))[0]);
+    await page.getByRole('button', { name: 'Close gallery' }).click();
+  }
+  await chapterButton(page, 'Through it all').click();
+  await expect(page.locator('.weather-couple img')).toHaveCount(1);
+  for (const id of await ids('.weather-couple')) note('weather', id);
+  await chapterButton(page, 'Every tomorrow').click();
+  await expect(page.locator('.finale-photo img')).toHaveCount(6);
+  for (const id of await ids('.finale-photo')) note('ending', id);
+  expect(seen.size).toBe(23);
 });
 
 test('readable text stays at or above 11px through the story', async ({ page }) => {
