@@ -4,10 +4,10 @@
 - Production URL: **https://praashi-custom.vercel.app**
 - Vercel scope: `prawal-sharma-s-projects`
 - Status: **READY**, verified 2 November 2026.
-- Deployment ID: `dpl_HVZaTy8DVsfLnViYmaCqNvhoozpp`
+- Deployment ID: `dpl_9DKiV9NgRp6Esdkgf4XmpQ5p5eFU` (commit `f45cb37`)
 - Dashboard: https://vercel.com/prawal-sharma-s-projects/praashi-custom
 
-Hosted on Vercel only. The deployment uses the prebuilt static output from the locally verified, approved production build. All 102 static files match the approved release checksums and total 14,814,082 bytes, including 60 optimized photo renditions, 10 lossless note screenshot copies and 10 byte-identical complete PNG copies. Original `Photos/` files, input-package directories, package manifest, source files, contact sheets and QA documents were excluded. Complete PNGs are intentionally served under `letters/2021/originals/` on explicit viewer request. Project linkage is stored in ignored `.vercel/project.json`.
+Hosted on Vercel only. The deployment uses the prebuilt static output from the locally verified, approved production build. All 103 static files match the local build of commit `f45cb37`, including the self-hosted soundtrack, 60 optimized photo renditions, 10 lossless note screenshot copies and 10 byte-identical complete PNG copies. Original `Photos/` files, input-package directories, package manifest, source files, contact sheets and QA documents were excluded. Complete PNGs are intentionally served under `letters/2021/originals/` on explicit viewer request. Project linkage is stored in ignored `.vercel/project.json`.
 
 ## Redeploy
 
@@ -40,3 +40,9 @@ The packaging script copies only `dist/` into `.vercel/output/static` and genera
 This is a public static deployment, including the letter excerpts, optimized screenshot copies and complete original PNGs. Publication was explicitly requested after the privacy notice. Noindex headers and Safari Private Browsing are not access controls. Existing hosting access settings were retained; no client-only password was introduced.
 
 On an iPhone, open the production URL in Safari and choose **Share → Add to Home Screen → Open as Web App → Add**. Physical-device verification is still distinct from the automated WebKit check.
+
+## Latest release, 2 November 2026
+
+Commit `f45cb37`, deployed on the owner's approval. All 103 live files match the local build byte for byte. Live checks in WebKit and Chromium (390×664, emulated): a fresh visitor's full guided run through all seven chapters, music on, restored greetings, unlocks, three-clause ending, service worker control, no errors or third-party requests. The soundtrack answers range requests (HTTP 206) and hashed assets are served immutable.
+
+Previous production deployment for rollback: `praashi-custom-kf1nf39gd-prawal-sharma-s-projects.vercel.app`. Devices that opened the earlier build get one more stale open before updating. Physical iPhone verification is still outstanding.

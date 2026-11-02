@@ -1,6 +1,6 @@
 # Release candidate — 2 November 2026
 
-**Not deployed.** The live site still serves the earlier build. Deploy only on the owner's approval, after the owner listens to the soundtrack.
+**Deployed on the owner's approval, 2 November 2026,** after the owner listened to the soundtrack. See [DEPLOYMENT.md](DEPLOYMENT.md). Physical iPhone verification is still outstanding.
 
 ## What changed
 
@@ -20,9 +20,9 @@ The final promise, final letter, photographs, excerpts, dates and images are unc
 
 ## Verification
 
-Lint, typecheck and build pass. `npm test`: **179 passed, 3 skipped, 0 failed** (Chromium 91 passed; WebKit 88 passed, 3 skipped). The skips are the same Chromium-only touch-injection tests as before.
+Lint, typecheck and build pass. `npm test`: **183 passed, 3 skipped, 0 failed** (Chromium 93 passed; WebKit 90 passed, 3 skipped). The skips are the same Chromium-only touch-injection tests as before.
 
-No physical iPhone has been used. No person has listened to the soundtrack during implementation; only its levels, loop edges and output signal were measured.
+No physical iPhone has been used. The owner has listened to the soundtrack; the implementer only measured its levels, loop edges and output signal.
 
 ## Redeploy, once approved
 

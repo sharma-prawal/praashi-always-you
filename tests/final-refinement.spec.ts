@@ -147,6 +147,32 @@ test.describe('music', () => {
     expect(await gain()).toBeGreaterThan(0.1);
   });
 
+  for (const [control, from] of [['Turn music off', 'the header icon'], ['Music off', 'the opening choice']] as const) {
+    test(`muting from ${from} fades smoothly with no surge`, async ({ page }) => {
+      await page.addInitScript(() => {
+        const connect = GainNode.prototype.connect as (...args: unknown[]) => unknown;
+        GainNode.prototype.connect = function (this: GainNode, ...args: unknown[]) {
+          if (args[0] === this.context.destination) Object.assign(window, { musicGain: this });
+          return connect.apply(this, args);
+        } as typeof GainNode.prototype.connect;
+      });
+      await page.goto('/'); await musicOn(page).click();
+      const gain = () => page.evaluate(() => (window as unknown as { musicGain: GainNode }).musicGain.gain.value);
+      await expect.poll(gain, { timeout: 12000 }).toBeGreaterThan(0.45);
+      const start = await gain();
+      const trace = page.evaluate(() => new Promise<number[]>(resolve => {
+        const values: number[] = [], begun = performance.now();
+        const sample = () => { values.push((window as unknown as { musicGain: GainNode }).musicGain.gain.value); if (performance.now() - begun < 520) setTimeout(sample, 30); else resolve(values); };
+        sample();
+      }));
+      await page.getByRole('button', { name: control, exact: true }).click();
+      const values = await trace;
+      expect(Math.max(...values)).toBeLessThan(start + 0.05);
+      expect(values[values.length - 1]).toBeLessThan(start * 0.2);
+      await expect(page.getByRole('button', { name: 'Turn music on' })).toHaveAttribute('aria-pressed', 'false');
+    });
+  }
+
   test('a saved preference waits for the tap that opens the story', async ({ page }) => {
     await instrument(page);
     await page.goto('/'); await musicOn(page).click();

@@ -138,8 +138,8 @@ export default function App() {
     return () => { document.removeEventListener('visibilitychange', hidden); delete document.documentElement.dataset.paused; invalidateAudio(); if (openingTimer.current) clearTimeout(openingTimer.current); void music.current?.dispose(); music.current = null; };
   }, [invalidateAudio]);
   useEffect(() => { document.title = scene === 0 ? '#PrAashi — Always You' : `${content.chapters[scene]} · #PrAashi`; }, [scene]);
-  const level = () => scene === 5 && revealed ? 0.24 : archive ? 0.36 : musicLevels[scene];
-  useEffect(() => { if (sound) music.current?.setLevel(level()); });
+  const musicLevel = scene === 5 && revealed ? 0.24 : archive ? 0.36 : musicLevels[scene];
+  useEffect(() => { if (sound) music.current?.setLevel(musicLevel); }, [sound, musicLevel]);
   async function setMusic(enable: boolean) {
     if (enable === audioIntent.current && enable === sound) return;
     const request = ++audioRequest.current;
@@ -149,7 +149,7 @@ export default function App() {
     try {
       if (enable) {
         music.current ||= new Music(() => { audioIntent.current = false; setSound(false); });
-        await music.current.start(level());
+        await music.current.start(musicLevel);
         if (!audioIntent.current || document.hidden) { await music.current.pause(false); return; }
       } else await music.current?.pause();
       if (request === audioRequest.current) { setSound(enable); setSoundPreference(enable); }

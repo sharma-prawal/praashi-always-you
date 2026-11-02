@@ -33,15 +33,16 @@ export class Music {
   }
 
   setLevel(level: number) {
-    if (this.audio && !this.audio.paused) this.ramp(level, 1.6);
+    // A chapter change must never undo a fade-out that is already under way.
+    if (this.audio && !this.audio.paused && !this.intendedPause) this.ramp(level, 1.6);
   }
 
   async pause(fade = true) {
     const revision = ++this.revision;
     this.intendedPause = true;
     if (fade && this.audio && !this.audio.paused) {
-      this.ramp(0, 0.12);
-      await new Promise(resolve => setTimeout(resolve, 420));
+      this.ramp(0, 0.14);
+      await new Promise(resolve => setTimeout(resolve, 560));
       if (revision !== this.revision) return;
     }
     this.audio?.pause();
@@ -88,7 +89,10 @@ export class Music {
   private ramp(level: number, seconds: number) {
     if (this.context && this.master) {
       const now = this.context.currentTime;
+      // Hold the current volume first, so cancelling a ramp in progress cannot make it jump.
+      const current = this.master.gain.value;
       this.master.gain.cancelScheduledValues(now);
+      this.master.gain.setValueAtTime(current, now);
       this.master.gain.setTargetAtTime(level, now, seconds);
     } else if (this.audio) {
       this.audio.volume = level;
