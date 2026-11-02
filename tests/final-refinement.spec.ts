@@ -412,6 +412,40 @@ test('no photograph repeats between the opening, chapters and ending', async ({ 
   expect(seen.size).toBe(23);
 });
 
+test('holding the heart fills it from the bottom, and letting go empties it', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/'); await chapterButton(page, 'My promise').click();
+  const heart = page.getByRole('button', { name: 'Hold for two seconds to open my promise' });
+  await expect(page.locator('circle.hold-progress, .hold-progress')).toHaveCount(0);
+  // 0 is empty and 1 is full: the fill rises from one full height below the heart.
+  const level = () => page.locator('.hold-fill-level').evaluate((element: SVGRectElement) => 1 - new DOMMatrixReadOnly(getComputedStyle(element).transform).f / element.getBBox().height);
+  expect(await level()).toBeCloseTo(0, 2);
+  await heart.hover(); await page.mouse.down();
+  await page.waitForTimeout(700);
+  const partway = await level();
+  expect(partway).toBeGreaterThan(0.15); expect(partway).toBeLessThan(0.7);
+  await page.waitForTimeout(500);
+  expect(await level()).toBeGreaterThan(partway);
+  await page.mouse.up();
+  await expect.poll(level).toBeLessThan(0.02);
+  await expect(page.locator('.letter-paper')).toHaveCount(0);
+  await heart.hover(); await page.mouse.down();
+  await expect(page.locator('.letter-paper')).toBeVisible({ timeout: 4000 });
+  await page.mouse.up();
+});
+
+test('reduced motion fades the held heart in place', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/'); await chapterButton(page, 'My promise').click();
+  await expect(page.locator('.hold-fill')).toHaveCSS('opacity', '0');
+  await page.getByRole('button', { name: 'Hold for two seconds to open my promise' }).hover();
+  await page.mouse.down();
+  await page.waitForTimeout(800);
+  const opacity = Number(await page.locator('.hold-fill').evaluate(element => getComputedStyle(element).opacity));
+  expect(opacity).toBeGreaterThan(0.1);
+  await page.mouse.up();
+});
+
 test('readable text stays at or above 11px through the story', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto('/');
   const small = () => page.evaluate(() => {

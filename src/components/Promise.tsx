@@ -31,13 +31,20 @@ export default function Promise({ revealed, reveal, finish }: { revealed: boolea
     <div className="paper-footer" aria-hidden="true">P + N <span>·</span> ALWAYS</div>
   </motion.article><button className="primary-button" onClick={finish}>Every tomorrow <ArrowRight size={18} /></button><p className="quiet-note">This promise is always here for you.</p></div>;
   return <div className="promise-scene scene-content"><h1>My promise<br /><em>to you.</em></h1><p className="scene-description">There's something I need you to know.</p><div className={`hold-heart ${holding ? 'is-holding' : ''}`}>
+    <svg className="hold-fill" viewBox="0 0 400 400" aria-hidden="true">
+      <defs>
+        <clipPath id="hold-fill-shape"><path d="M200 280 C148 230 106 186 106 138 C106 98 136 72 170 72 C190 72 200 85 200 85 C200 85 210 72 230 72 C264 72 294 98 294 138 C294 186 252 230 200 280 Z" /></clipPath>
+        <linearGradient id="hold-fill-colour" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stopColor="#c9607f" /><stop offset="45%" stopColor="#ee9db6" /><stop offset="74%" stopColor="#f7cad7" /><stop offset="100%" stopColor="#f7cad7" stopOpacity="0" /></linearGradient>
+      </defs>
+      <g clipPath="url(#hold-fill-shape)"><rect className="hold-fill-level" x="100" y="-6" width="200" height="290" fill="url(#hold-fill-colour)" /></g>
+    </svg>
     <Artwork name="glowing-heart" className="promise-heart-art" />
     <button className="heart-button" aria-label="Hold for two seconds to open my promise" aria-describedby="hold-help" aria-pressed={holding} onClick={event => { if (event.detail === 0) reveal(); }} onPointerDown={e => {
       if (pointer.current !== null || e.button !== 0) return;
       pointer.current = e.pointerId; e.currentTarget.setPointerCapture(e.pointerId); setHolding(true);
       timer.current = setTimeout(() => { timer.current = null; pointer.current = null; setHolding(false); reveal(); }, 2000);
     }} onPointerUp={cancelPointer} onPointerCancel={cancelPointer} onLostPointerCapture={cancelPointer} onBlur={cancel} onContextMenu={event => event.preventDefault()}>
-      <Heart aria-hidden="true" size={44} strokeWidth={0.7} fill="currentColor" /><svg className="hold-progress" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="74" /></svg>
+      <Heart aria-hidden="true" size={44} strokeWidth={0.7} fill="currentColor" />
     </button>
   </div><p id="hold-help" className="hold-help" role="status" aria-live="polite">{holding ? 'A little closer…' : 'Hold my heart for a moment.'}</p><button className="text-button" onClick={reveal}>Or tap to read my promise <ArrowRight size={15} /></button><p className="promise-bottom">Written for you. Meant for always.</p></div>;
 }

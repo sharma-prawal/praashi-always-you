@@ -20,7 +20,7 @@ The final promise, final letter, photographs, excerpts, dates and images are unc
 
 ## Verification
 
-Lint, typecheck and build pass. `npm test`: **193 passed, 3 skipped, 0 failed** (Chromium 98 passed; WebKit 95 passed, 3 skipped). The skips are the same Chromium-only touch-injection tests as before.
+Lint, typecheck and build pass. `npm test`: **197 passed, 3 skipped, 0 failed** (Chromium 100 passed; WebKit 97 passed, 3 skipped). The skips are the same Chromium-only touch-injection tests as before.
 
 No physical iPhone has been used. The owner has listened to the soundtrack; the implementer only measured its levels, loop edges and output signal.
 

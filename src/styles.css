@@ -174,9 +174,11 @@ picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .heart-button { width: 160px; height: 160px; border: none; background: radial-gradient(circle, #f7cad71a, transparent 70%); display: grid; place-items: center; position: relative; border-radius: 50%; touch-action: none; color: #f1b7c9; }
 .heart-button > svg:first-child { filter: drop-shadow(0 0 16px #ed9eba50); animation: heartbeat 3.6s ease-in-out infinite; transition: filter 200ms ease; }
 @keyframes heartbeat { 0%, 35%, 100% { transform: scale(1); } 16% { transform: scale(1.06); } 25% { transform: scale(1.02); } }
-.hold-progress { position: absolute; inset: 0; width: 160px; height: 160px; transform: rotate(-90deg); }
-.hold-progress circle { fill: none; stroke: #e9c47a; stroke-width: 1; stroke-dasharray: 465; stroke-dashoffset: 465; transition: stroke-dashoffset 200ms var(--ease-out); }
-.is-holding .hold-progress circle { stroke-dashoffset: 0; transition: stroke-dashoffset 2s linear; }
+.hold-fill { position: absolute; inset: 0; width: 270px; height: 270px; transform: translateY(14px); opacity: 0.72; pointer-events: none; transition: transform 200ms var(--ease-out); }
+.is-holding .hold-fill { transform: translateY(14px) scale(1.025); }
+.hold-fill-level { transform-box: fill-box; transform: translateY(100%); transition: transform 320ms var(--ease-out); }
+.is-holding .hold-fill-level { transform: translateY(0); transition: transform 2s linear; }
+.is-holding .heart-button { color: #fff8ef; }
 .is-holding .heart-button > svg:first-child { filter: drop-shadow(0 0 26px #ed9eba); }
 .is-holding .heart-button { background: radial-gradient(circle, #f7cad738, transparent 70%); }
 .hold-help { font: italic 21px var(--font-serif); margin-bottom: 8px; color: #f3d9df; }
@@ -329,7 +331,9 @@ picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .love-burst { display: none; }
   button { transition: background-color 150ms ease, color 150ms ease; }
   .primary-button:hover { transform: none; }
-  .hold-progress circle { transition-duration: 200ms; }
+  .hold-fill, .is-holding .hold-fill { transform: translateY(14px); opacity: 0; transition: opacity 200ms ease; }
+  .is-holding .hold-fill { opacity: 0.72; transition: opacity 2s linear; }
+  .hold-fill-level, .is-holding .hold-fill-level { transform: translateY(0); transition: none; }
   .promise-heart-art, .is-holding .promise-heart-art { transform: translateY(14px); transition: opacity 150ms ease; }
 }
 
@@ -391,7 +395,6 @@ html[data-paused='true'] .rain i, html[data-paused='true'] .heart-button > svg:f
 @keyframes connect-memories { from { stroke-dashoffset: 1; opacity: 0.25; } to { stroke-dashoffset: 0; opacity: 1; } }
 @keyframes memory-twinkle { 0%, 100% { opacity: 0.65; } 50% { opacity: 1; } }
 .is-holding .heart-button > svg:first-child { animation-duration: 1.15s; }
-.hold-progress circle { stroke-width: 1.6; }
 .paper-fold { position: absolute; top: 0; left: 0; right: 0; height: 36px; transform-origin: top center; background: linear-gradient(#e3cda855, #fff9ef22); animation: paper-unfold 650ms var(--ease-out) both; pointer-events: none; }
 @keyframes paper-unfold { from { opacity: 0.8; transform: scaleY(1); } to { opacity: 0; transform: scaleY(0.05); } }
 .letter-paper > .letter-emphasis { font: 400 23px/1.4 var(--font-serif); padding-block: 4px; color: #713d52; }
