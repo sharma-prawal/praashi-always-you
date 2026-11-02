@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="trailGold" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#e9c47a" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#e9c47a" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#fff8ef" stop-opacity="0.8"/>
+      <stop offset="85%" stop-color="#f7cad7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1c1124" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="trailRose" x1="100%" y1="100%" x2="0%" y2="20%">
+      <stop offset="0%" stop-color="#f7cad7" stop-opacity="0"/>
+      <stop offset="25%" stop-color="#d58c9d" stop-opacity="0.4"/>
+      <stop offset="55%" stop-color="#f7cad7" stop-opacity="0.7"/>
+      <stop offset="80%" stop-color="#e9c47a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1c1124" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="trailGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Flowing Main Trajectory -->
+  <path d="M-50 280 C120 320 220 180 340 140 C440 100 520 180 650 110" 
+        stroke="url(#trailGold)" stroke-width="2.5" stroke-linecap="round" filter="url(#trailGlow)"/>
+
+  <!-- Secondary Counter-Flow Curve -->
+  <path d="M-30 130 C150 90 260 260 400 240 C510 220 570 120 640 160" 
+        stroke="url(#trailRose)" stroke-width="1.8" stroke-linecap="round" filter="url(#trailGlow)" stroke-dasharray="4 2"/>
+
+  <!-- Whispering Filament Trails -->
+  <path d="M40 310 C180 340 250 220 370 180 C480 140 540 220 630 170" 
+        stroke="url(#trailGold)" stroke-width="0.8" opacity="0.35"/>
+  <path d="M0 160 C120 120 210 230 330 210 C430 190 510 260 610 230" 
+        stroke="url(#trailRose)" stroke-width="0.6" opacity="0.3"/>
+
+  <!-- Stardust particles sprinkled along the trajectories -->
+  <circle cx="160" cy="245" r="1.5" fill="#fff8ef" opacity="0.9"/>
+  <circle cx="210" cy="210" r="2" fill="#e9c47a" opacity="0.8"/>
+  <circle cx="270" cy="165" r="2.5" fill="#f7cad7" opacity="0.85"/>
+  <circle cx="340" cy="140" r="3" fill="#fff8ef" filter="url(#trailGlow)"/>
+  <circle cx="415" cy="130" r="2" fill="#e9c47a" opacity="0.75"/>
+  <circle cx="485" cy="160" r="1.8" fill="#f7cad7" opacity="0.7"/>
+  <circle cx="530" cy="145" r="2.2" fill="#fff8ef" opacity="0.85"/>
+
+  <!-- Tiny sparkle stars -->
+  <g transform="translate(340, 140)">
+    <path d="M0 -8 L0 8 M-8 0 L8 0" stroke="#fff8ef" stroke-width="0.8" opacity="0.9"/>
+  </g>
+  <g transform="translate(485, 160)">
+    <path d="M0 -5 L0 5 M-5 0 L5 0" stroke="#e9c47a" stroke-width="0.6" opacity="0.7"/>
+  </g>
+</svg>

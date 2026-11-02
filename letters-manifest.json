@@ -1,0 +1,107 @@
+{
+  "collectionTitle": "The Words That Started Us",
+  "year": 2021,
+  "notes": "User supplied screenshots show FRAGMENTS of personal letters, not full letters. Excerpts below are selected from visible text only. Do not invent hidden content or present as full transcription. Date year 2021 supplied by user; dates visible without year. All letters are personal and should not be uploaded or transmitted by the deployed application to remote services.",
+  "letters": [
+    {
+      "date": "2021-03-07",
+      "image": "letters/2021/2021-03-07.png",
+      "sourceOriginalFilename": "IMG_3157.png",
+      "selectedExcerpt": "You are beautiful in your own way. And I meant it.",
+      "theme": "encouragement",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-04-05",
+      "image": "letters/2021/2021-04-05.png",
+      "sourceOriginalFilename": "IMG_3148.png",
+      "selectedExcerpt": "Today is a good day. What comes is a gift. And I love you!",
+      "theme": "beginnings",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-05-20",
+      "image": "letters/2021/2021-05-20.png",
+      "sourceOriginalFilename": "IMG_3149.png",
+      "selectedExcerpt": "In case you forgot, your smile lights up the world, your energy is unmatched, and you are the best thing that ever happened to me.",
+      "theme": "admiration",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-06-19",
+      "image": "letters/2021/2021-06-19.png",
+      "sourceOriginalFilename": "IMG_3150.png",
+      "selectedExcerpt": "The way that your smile lights up a room will always be my favourite thing about you.",
+      "theme": "admiration",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-07-15",
+      "image": "letters/2021/2021-07-15.png",
+      "sourceOriginalFilename": "IMG_3151.png",
+      "selectedExcerpt": "I love loving you and nothing can change that.",
+      "theme": "devotion",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-08-28",
+      "image": "letters/2021/2021-08-28.png",
+      "sourceOriginalFilename": "IMG_3152.png",
+      "selectedExcerpt": "No matter where you are, how far from me, it is our love that makes us feel so close even when we do not see each other.",
+      "theme": "distance",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-09-17",
+      "image": "letters/2021/2021-09-17.png",
+      "sourceOriginalFilename": "IMG_3153.png",
+      "selectedExcerpt": "I love you with all that I am, all that I was and all that I will ever be.",
+      "theme": "devotion",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-10-15",
+      "image": "letters/2021/2021-10-15.png",
+      "sourceOriginalFilename": "IMG_3154.png",
+      "selectedExcerpt": "Respect and trust is the key to a happy relationship.",
+      "theme": "commitment",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-11-30",
+      "image": "letters/2021/2021-11-30.png",
+      "sourceOriginalFilename": "IMG_3155.png",
+      "selectedExcerpt": "I am so thankful that you have chosen me.",
+      "theme": "gratitude",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    },
+    {
+      "date": "2021-12-22",
+      "image": "letters/2021/2021-12-22.png",
+      "sourceOriginalFilename": "IMG_3156.png",
+      "selectedExcerpt": "your presence alone makes everything better",
+      "theme": "home",
+      "isFullLetter": false,
+      "excerptType": "visible_source_excerpt",
+      "sourceImageIsUnedited": true
+    }
+  ]
+}

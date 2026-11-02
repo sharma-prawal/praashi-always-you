@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Soft cosmic nebula clouds -->
+    <radialGradient id="nebula1" cx="35%" cy="30%" r="45%">
+      <stop offset="0%" stop-color="#3b2046" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#2a1633" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#1c1124" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebula2" cx="70%" cy="75%" r="40%">
+      <stop offset="0%" stop-color="#4a223e" stop-opacity="0.2"/>
+      <stop offset="65%" stop-color="#22122b" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#1c1124" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff8ef" stop-opacity="1"/>
+      <stop offset="30%" stop-color="#e9c47a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#e9c47a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Nebula Underlay -->
+  <rect width="800" height="1200" fill="url(#nebula1)"/>
+  <rect width="800" height="1200" fill="url(#nebula2)"/>
+
+  <!-- Magnitude 1 Major Cross Stars -->
+  <g transform="translate(180, 220)">
+    <circle cx="0" cy="0" r="12" fill="url(#starGlow)"/>
+    <path d="M0 -14 L0 14 M-14 0 L14 0" stroke="#fff8ef" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M-5 -5 L5 5 M5 -5 L-5 5" stroke="#e9c47a" stroke-width="0.8" opacity="0.6"/>
+  </g>
+  <g transform="translate(620, 180)">
+    <circle cx="0" cy="0" r="10" fill="url(#starGlow)"/>
+    <path d="M0 -12 L0 12 M-12 0 L12 0" stroke="#f7cad7" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(390, 480)">
+    <circle cx="0" cy="0" r="14" fill="url(#starGlow)"/>
+    <path d="M0 -16 L0 16 M-16 0 L16 0" stroke="#fff8ef" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M-6 -6 L6 6 M6 -6 L-6 6" stroke="#e9c47a" stroke-width="0.8" opacity="0.7"/>
+  </g>
+  <g transform="translate(680, 780)">
+    <circle cx="0" cy="0" r="11" fill="url(#starGlow)"/>
+    <path d="M0 -13 L0 13 M-13 0 L13 0" stroke="#fff8ef" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(140, 920)">
+    <circle cx="0" cy="0" r="9" fill="url(#starGlow)"/>
+    <path d="M0 -10 L0 10 M-10 0 L10 0" stroke="#f7cad7" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- Magnitude 2 Medium Stars -->
+  <g stroke="#e9c47a" stroke-width="0.8" stroke-linecap="round">
+    <path d="M90 140 v-8 v16 h-8 h16" opacity="0.75"/>
+    <path d="M480 110 v-6 v12 h-6 h12" opacity="0.6"/>
+    <path d="M290 320 v-8 v16 h-8 h16" opacity="0.8"/>
+    <path d="M710 390 v-7 v14 h-7 h14" opacity="0.7"/>
+    <path d="M120 540 v-6 v12 h-6 h12" opacity="0.65"/>
+    <path d="M520 630 v-8 v16 h-8 h16" opacity="0.75"/>
+    <path d="M300 790 v-6 v12 h-6 h12" opacity="0.6"/>
+    <path d="M470 940 v-8 v16 h-8 h16" opacity="0.8"/>
+    <path d="M630 1060 v-7 v14 h-7 h14" opacity="0.7"/>
+    <path d="M220 1120 v-6 v12 h-6 h12" opacity="0.65"/>
+  </g>
+
+  <!-- Magnitude 3 Fine Stardust Dots (Gold, Blush, Ivory) -->
+  <g fill="#e9c47a" opacity="0.65">
+    <circle cx="60" cy="80" r="1.5"/>
+    <circle cx="230" cy="95" r="1.2"/>
+    <circle cx="340" cy="160" r="1.8"/>
+    <circle cx="560" cy="70" r="1.4"/>
+    <circle cx="750" cy="140" r="1.2"/>
+    <circle cx="80" cy="360" r="1.6"/>
+    <circle cx="210" cy="420" r="1.4"/>
+    <circle cx="490" cy="380" r="1.8"/>
+    <circle cx="640" cy="490" r="1.5"/>
+    <circle cx="760" cy="580" r="1.2"/>
+    <circle cx="95" cy="710" r="1.4"/>
+    <circle cx="260" cy="670" r="1.6"/>
+    <circle cx="420" cy="720" r="1.2"/>
+    <circle cx="580" cy="820" r="1.5"/>
+    <circle cx="740" cy="890" r="1.3"/>
+    <circle cx="70" cy="1040" r="1.4"/>
+    <circle cx="340" cy="980" r="1.6"/>
+    <circle cx="510" cy="1090" r="1.5"/>
+    <circle cx="710" cy="1140" r="1.2"/>
+  </g>
+  <g fill="#f7cad7" opacity="0.55">
+    <circle cx="150" cy="190" r="1.5"/>
+    <circle cx="410" cy="80" r="1.2"/>
+    <circle cx="670" cy="270" r="1.6"/>
+    <circle cx="180" cy="610" r="1.4"/>
+    <circle cx="360" cy="560" r="1.8"/>
+    <circle cx="590" cy="330" r="1.3"/>
+    <circle cx="680" cy="670" r="1.5"/>
+    <circle cx="190" cy="830" r="1.4"/>
+    <circle cx="380" cy="870" r="1.2"/>
+    <circle cx="590" cy="970" r="1.6"/>
+    <circle cx="280" cy="1050" r="1.4"/>
+    <circle cx="440" cy="1160" r="1.2"/>
+  </g>
+  <g fill="#fff8ef" opacity="0.8">
+    <circle cx="120" cy="270" r="1.8"/>
+    <circle cx="290" cy="220" r="1.4"/>
+    <circle cx="510" cy="240" r="1.6"/>
+    <circle cx="730" cy="210" r="1.5"/>
+    <circle cx="160" cy="470" r="1.6"/>
+    <circle cx="440" cy="420" r="1.4"/>
+    <circle cx="610" cy="560" r="1.8"/>
+    <circle cx="770" cy="720" r="1.4"/>
+    <circle cx="80" cy="810" r="1.6"/>
+    <circle cx="280" cy="920" r="1.5"/>
+    <circle cx="480" cy="830" r="1.8"/>
+    <circle cx="640" cy="910" r="1.4"/>
+    <circle cx="150" cy="1180" r="1.5"/>
+    <circle cx="390" cy="1080" r="1.7"/>
+    <circle cx="560" cy="1140" r="1.4"/>
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" fill="none">
+  <defs>
+    <radialGradient id="heartGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f7cad7" stop-opacity="0.45"/>
+      <stop offset="40%" stop-color="#e9c47a" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#1c1124" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="heartStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8ef"/>
+      <stop offset="30%" stop-color="#f7cad7"/>
+      <stop offset="70%" stop-color="#e9c47a"/>
+      <stop offset="100%" stop-color="#d58c9d"/>
+    </linearGradient>
+    <linearGradient id="orbitStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e9c47a" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#f7cad7" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#e9c47a" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softBloom" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow Halo -->
+  <circle cx="200" cy="200" r="160" fill="url(#heartGlow)"/>
+
+  <!-- Celestial Orbital Rings -->
+  <ellipse cx="200" cy="200" rx="170" ry="85" transform="rotate(-28 200 200)" stroke="url(#orbitStroke)" stroke-width="1" stroke-dasharray="3 6"/>
+  <ellipse cx="200" cy="200" rx="150" ry="70" transform="rotate(32 200 200)" stroke="url(#orbitStroke)" stroke-width="1" opacity="0.6"/>
+
+  <!-- Orbital Stardust Accents -->
+  <circle cx="70" cy="130" r="2" fill="#fff8ef" opacity="0.8"/>
+  <circle cx="330" cy="270" r="1.5" fill="#e9c47a" opacity="0.75"/>
+  <circle cx="280" cy="90" r="2.5" fill="#f7cad7" opacity="0.9"/>
+  <circle cx="110" cy="290" r="1.5" fill="#fff8ef" opacity="0.6"/>
+
+  <!-- Outer Layered Heart Silhouette -->
+  <path d="M200 295 C140 240 90 190 90 135 C90 90 125 60 165 60 C188 60 200 75 200 75 C200 75 212 60 235 60 C275 60 310 90 310 135 C310 190 260 240 200 295 Z" 
+        stroke="url(#heartStroke)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" fill="none"/>
+
+  <!-- Core Glowing Heart -->
+  <path d="M200 280 C148 230 106 186 106 138 C106 98 136 72 170 72 C190 72 200 85 200 85 C200 85 210 72 230 72 C264 72 294 98 294 138 C294 186 252 230 200 280 Z" 
+        stroke="url(#heartStroke)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#softBloom)" fill="none"/>
+
+  <!-- Inner Soft Heart Echo -->
+  <path d="M200 255 C160 216 126 178 126 140 C126 110 148 90 174 90 C190 90 200 100 200 100 C200 100 210 90 226 90 C252 90 274 110 274 140 C274 178 240 216 200 255 Z" 
+        stroke="#f7cad7" stroke-width="1" stroke-dasharray="2 3" opacity="0.4" fill="none"/>
+
+  <!-- Sparkling Cross Stars -->
+  <g transform="translate(145, 110)">
+    <path d="M0 -7 L0 7 M-7 0 L7 0" stroke="#fff8ef" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="1.5" fill="#e9c47a"/>
+  </g>
+  <g transform="translate(255, 105)">
+    <path d="M0 -9 L0 9 M-9 0 L9 0" stroke="#fff8ef" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="2" fill="#e9c47a"/>
+  </g>
+  <g transform="translate(200, 312)">
+    <path d="M0 -5 L0 5 M-5 0 L5 0" stroke="#e9c47a" stroke-width="1" stroke-linecap="round" opacity="0.75"/>
+  </g>
+</svg>

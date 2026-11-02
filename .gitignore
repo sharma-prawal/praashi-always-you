@@ -1,0 +1,15 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.DS_Store
+.cache/
+.impeccable/review/
+/Photos/
+/photos/
+/letters/
+.env*
+
+*.tsbuildinfo
+.vercel/
+.vercel

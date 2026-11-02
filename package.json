@@ -1,0 +1,48 @@
+{
+  "name": "praashi-always-you",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build && node scripts/build-sw.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -b",
+    "photos:contact": "node scripts/contact-sheet.mjs",
+    "photos:import": "node scripts/import-photos.mjs",
+    "letters:import": "node scripts/import-letters.mjs",
+    "test": "playwright test",
+    "test:visual": "playwright test --project=chromium",
+    "test:webkit": "playwright test --project=webkit"
+  },
+  "dependencies": {
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "lucide-react": "^1.66.0",
+    "motion": "^14.9.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.14.0",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "6.0",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
+  }
+}
